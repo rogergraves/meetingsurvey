@@ -26,3 +26,7 @@ group :development do
   gem "git-smart", "~> 0.1.10"                        # Allows "git smart-pull" for less merge messes
 end
 
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0.0'
+end
+
