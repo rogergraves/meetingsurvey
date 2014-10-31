@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
-
-gem 'rails', '4.1.6'
+gem 'rails', '4.1.7'
 gem "unicorn", "~> 4.7.0"                             # Webserver recommended by heroku (for increased scaling)
 gem "unicorn-rails", "~> 1.1.0"                       # Makes unicorn the default rails server
 gem 'pg', '~> 0.17.1'                                 # Postgres ruby driver
@@ -28,5 +27,7 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
+  gem 'factory_girl_rails', '~> 4.5.0'
+  gem 'shoulda-matchers', require: false
 end
 
