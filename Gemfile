@@ -13,6 +13,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'heroku', '~> 3.6.0'                              # Heroku deployments and tools
+gem 'devise', '~> 3.4.1'                              # Flexible authentication solution
 
 group :production do
   gem "rails_12factor", "~> 0.0.2"                    # Helps speed up deploys on heroku
