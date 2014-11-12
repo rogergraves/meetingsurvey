@@ -8,7 +8,7 @@ development:
   <<: *default
   database: meetingsurvey_development
 
-test:
+test: &test
   <<: *default
   database: meetingsurvey_test
 
@@ -16,3 +16,6 @@ production:
   <<: *default
   database: meetingsurvey_production
   password: <%= ENV['MEETINGSURVEY_DATABASE_PASSWORD'] %>
+
+cucumber:
+  <<: *test

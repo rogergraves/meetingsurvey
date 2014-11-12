@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 ruby '2.1.3'
 
-gem 'rails', '4.1.6'
+gem 'rails', '~> 4.2.0.beta4'
 gem "unicorn", "~> 4.7.0"                             # Webserver recommended by heroku (for increased scaling)
 gem "unicorn-rails", "~> 1.1.0"                       # Makes unicorn the default rails server
 gem 'pg', '~> 0.17.1'                                 # Postgres ruby driver
-gem 'sass-rails', '~> 4.0.1'
-gem "uglifier", "~> 2.4.0"                            # Ruby wrapper for UglifyJS JavaScript compressor.
+gem 'sass-rails', '~> 5.0.0.beta1'
+gem 'uglifier', '~> 2.5.3'                            # Ruby wrapper for UglifyJS JavaScript compressor.
 gem 'coffee-rails', '~> 4.0.1'
 gem 'jquery-rails'
 gem 'turbolinks'
@@ -25,9 +25,14 @@ group :development do
 end
 
 group :test do
-  gem 'rspec-rails', '~> 3.0.0'
-  gem 'factory_girl_rails', '~> 4.5.0'
-  gem 'shoulda-matchers', require: false
-  gem 'database_cleaner', '~> 1.3.0'
+  gem 'shoulda-matchers', '~> 2.7.0', require: false  # Collection of testing matchers extracted from Shoulda http://thoughtbot.com/community
+  gem 'rspec-rails', '~> 3.0.2'                       # https://www.relishapp.com/rspec/rspec-rails/docs/gettingstarted
+  gem 'rspec-activemodel-mocks', '~> 1.0.1'           # RSpec test doubles for ActiveModel and ActiveRecord
+  gem 'capybara', '~> 2.4.4'                          # Acceptance test framework for web applications http://jnicklas.github.com/capybara/
+  gem 'database_cleaner', '~> 1.3.0'                  # database_cleaner is not required, but highly recommended
+  gem 'selenium-webdriver', '~> 2.43.0'               # https://code.google.com/p/selenium/
+  gem 'capybara-firebug', '~> 2.0.0'                  # Provides a dead-simple way to run scenarios with Firebug enabled under the selenium driver https://github.com/jfirebaugh/capybara-firebug
+  gem 'cucumber-rails', '~> 1.4.0', require: false    # Cucumber Generator and Runtime for Rails
+  gem 'factory_girl_rails', '~> 4.5.0'                # https://github.com/thoughtbot/factory_girl_rails
 end
 
