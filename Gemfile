@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 ruby '2.1.3'
 
-gem 'rails', '~> 4.2.0.beta4'
+gem 'rails', '~> 4.1.6'
 gem "unicorn", "~> 4.7.0"                             # Webserver recommended by heroku (for increased scaling)
 gem "unicorn-rails", "~> 1.1.0"                       # Makes unicorn the default rails server
 gem 'pg', '~> 0.17.1'                                 # Postgres ruby driver
-gem 'sass-rails', '~> 5.0.0.beta1'
+gem 'sass-rails', '~> 4.0.4'
 gem 'uglifier', '~> 2.5.3'                            # Ruby wrapper for UglifyJS JavaScript compressor.
 gem 'coffee-rails', '~> 4.0.1'
 gem 'jquery-rails'

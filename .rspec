@@ -1,3 +1,2 @@
---color
---warnings
+--color -f documentation
 --require spec_helper
