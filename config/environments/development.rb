@@ -45,4 +45,8 @@ Rails.application.configure do
   #     :enable_starttls_auto => true
   # }
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  ENV['MAILMAN_DOMAIN'] = 'rubyriders.com'
+  ENV['MAILMAN_USERNAME'] = 'meetingsurvey@rubyriders.com'
+  ENV['MAILMAN_PASSWORD'] = '@fLJS3!@ds'
 end
