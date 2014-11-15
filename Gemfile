@@ -20,8 +20,11 @@ group :production do
 end
 
 group :development do
-  gem "awesome_print"                                 # Nicely formatted data structures in console, for example "ap User.first"
   gem "git-smart", "~> 0.1.10"                        # Allows "git smart-pull" for less merge messes
+end
+
+group :development, :test do
+  gem "awesome_print"                                 # Nicely formatted data structures in console, for example "ap User.first"
 end
 
 group :test do

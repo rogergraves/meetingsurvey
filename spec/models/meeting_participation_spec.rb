@@ -13,6 +13,11 @@ describe MeetingParticipation do
   end
 
   context 'Validations' do
-    # Add validation tests here
+    it "generated link_code must be unique" do
+      another_meeting_participation = FactoryGirl.create(:meeting_participation)
+      expect(another_meeting_participation.valid?).to eq(true)
+      another_meeting_participation.link_code = meeting_participation.link_code
+      expect(another_meeting_participation.valid?).to eq(false)
+    end
   end
 end
