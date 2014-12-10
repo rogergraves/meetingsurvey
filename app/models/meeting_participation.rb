@@ -4,6 +4,8 @@ class MeetingParticipation < ActiveRecord::Base
 
   before_create :generate_link_code_if_missing
   validates_uniqueness_of :link_code
+  validates_uniqueness_of :meeting_id, :scope => :user_id
+  validates_uniqueness_of :organizer, :if => :organizer, :scope => :meeting_id
 
   private
 
