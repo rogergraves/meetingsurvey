@@ -5,4 +5,5 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :meeting_participations, :dependent => :destroy
+  has_many :meeting_answers, :dependent => :destroy
 end

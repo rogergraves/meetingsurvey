@@ -13,6 +13,18 @@ describe MeetingParticipation do
   end
 
   context 'Validations' do
+    it "user is required" do
+      expect(meeting_participation.valid?).to eq(true)
+      meeting_participation.user_id = nil
+      expect(meeting_participation.valid?).to eq(false)
+    end
+
+    it "meeting is required" do
+      expect(meeting_participation.valid?).to eq(true)
+      meeting_participation.meeting_id = nil
+      expect(meeting_participation.valid?).to eq(false)
+    end
+
     it "generated link_code must be unique" do
       another_meeting_participation = FactoryGirl.create(:meeting_participation)
       expect(another_meeting_participation.valid?).to eq(true)

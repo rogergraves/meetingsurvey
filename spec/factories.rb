@@ -27,4 +27,12 @@ FactoryGirl.define do
     organizer false
     confirmed_attendance [true, false].sample()
   end
+
+  factory :meeting_answer do
+    user
+    meeting
+    question { Faker::Lorem.sentence.gsub('.', '?') }
+    answer ['Yes', 'No'].sample()
+    comments [nil, Faker::Lorem.sentence].sample()
+  end
 end

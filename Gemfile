@@ -27,6 +27,7 @@ end
 
 group :development, :test do
   gem "awesome_print"                                 # Nicely formatted data structures in console, for example "ap User.first"
+  gem 'faker', '~> 1.4.3'                             # Makes random text for tests and factories: https://github.com/stympy/faker
 end
 
 group :test do

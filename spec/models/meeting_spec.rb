@@ -15,5 +15,12 @@ describe Meeting do
       meeting.destroy
       expect(MeetingParticipation.exists?(meeting_participation)).to eq(false)
     end
+
+    it 'does not orphan meeting_answers when meeting is deleted' do
+      meeting_answer = FactoryGirl.create(:meeting_answer, :meeting => meeting)
+      expect(MeetingAnswer.exists?(meeting_answer)).to eq(true)
+      meeting.destroy
+      expect(MeetingAnswer.exists?(meeting_answer)).to eq(false)
+    end
   end
 end
