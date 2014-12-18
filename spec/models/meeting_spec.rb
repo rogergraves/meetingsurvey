@@ -23,4 +23,11 @@ describe Meeting do
       expect(MeetingAnswer.exists?(meeting_answer)).to eq(false)
     end
   end
+
+  context "Class methods" do
+    it "#self.lookup" do
+      meeting_participation = FactoryGirl.create(:meeting_participation, :meeting => meeting)
+      expect(Meeting.lookup(meeting_participation.link_code)).to eq(meeting)
+    end
+  end
 end
