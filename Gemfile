@@ -19,6 +19,7 @@ gem 'ics', '~> 0.2.1', require: false                 # Gem for parsing ICS file
 gem "therubyracer", '~> 0.12.1'                       # Needed for twitter bootstrap
 gem "less-rails", '~> 2.6.0'                          # Needed for twitter bootstrap
 gem "twitter-bootstrap-rails", '~> 3.2.0'             # Is twitter bootstrap
+gem 'activeadmin', github: 'gregbell/active_admin'    # The administration framework for Ruby on Rails
 
 group :production do
   gem "rails_12factor", "~> 0.0.2"                    # Helps speed up deploys on heroku
