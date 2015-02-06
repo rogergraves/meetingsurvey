@@ -23,7 +23,6 @@ Mailman::Application.run do
             puts "Received new message! '#{message.subject}'"
             if message.attachments.count > 0
                 events = ICS::Event.file(message.attachments[0])
-                puts "!!!!!!!!!!!!!! #{events.inspect} !!!!!!!!!!!!!!"
             end
         rescue Exception => e
             Mailman.logger.error "Exception occurred while receiving message:\n#{message}"
