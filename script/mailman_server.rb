@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require "rubygems"
-require "ics"
+require "icalendar"
 require "bundler/setup"
 require "mailman"
 
@@ -15,18 +15,27 @@ Mailman.config.imap = {
     password: (ENV['MAILMAN_PASSWORD'] || '@fLJS3!@ds')
 }
 
+# Mailman.config.ignore_stdin = true
 Mailman.config.poll_interval = 0
+# Mailman.config.maildir = '~/Maildir'
 
 Mailman::Application.run do
-    default do
-        begin
-            puts "Received new message! '#{message.subject}'"
-            if message.attachments.count > 0
-                events = ICS::Event.file(message.attachments[0])
-            end
-        rescue Exception => e
-            Mailman.logger.error "Exception occurred while receiving message:\n#{message}"
-            Mailman.logger.error [e, *e.backtrace].join("\n")
-        end
+  default do
+    message.attachments.each do |attachment|
+      if /application\/ics/ =~ attachment.content_type
+        cals = Icalendar.parse(attachment.body)
+        cal = cals.first
+        event = cal.events.first
+        # TODO: add time_zone
+        Meeting.create!(title: event.summary.to_s,
+                        start_time: event.dtstart.to_s,
+                        end_time: event.dtend.to_s
+        )
+        # puts "summary: #{event.summary}"
+        # puts "description: #{event.description}"
+        # puts "dtstart: #{event.dtstart}"
+        # puts "dtend: #{event.dtend}"
+      end
     end
+  end
 end
