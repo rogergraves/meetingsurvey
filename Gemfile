@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.1.3'
 
-gem 'rails', '~> 4.1.6'
+gem 'rails', '~> 4.2.0'
 gem "unicorn", "~> 4.7.0"                             # Webserver recommended by heroku (for increased scaling)
 gem "unicorn-rails", "~> 1.1.0"                       # Makes unicorn the default rails server
 gem 'pg', '~> 0.17.1'                                 # Postgres ruby driver
