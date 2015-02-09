@@ -5,6 +5,7 @@ require "icalendar"
 require "bundler/setup"
 require "mailman"
 
+DEFAULT_PASSWORD = '1234567890'
 
 Mailman.config.imap = {
     server: 'imap.gmail.com',
@@ -27,6 +28,7 @@ Mailman::Application.run do
         cal = cals.first
         event = cal.events.first
 
+        # Add meeting
         meeting = Meeting.find_or_create_by!(uid: event.uid.to_s)
 
         meeting.summary       = event.summary.to_s
@@ -39,6 +41,7 @@ Mailman::Application.run do
 
         rule = {}
 
+        # TODO: add existing check for event.rrule.first if needed
         event_rule = event.rrule.first
         rule[:frequency]        = event_rule.frequency
         rule[:until]            = event_rule.until
@@ -56,7 +59,31 @@ Mailman::Application.run do
         rule[:week_start]       = event_rule.week_start
 
         meeting.repeat_rule = rule
-        puts meeting.repeat_rule
+
+        # Add participations
+        ## Organizer
+        organizer_email = event.organizer.to_s.split(':').last
+        organizer_user = User.find_or_create_by!(email: organizer_email) do |user|
+          user.password = DEFAULT_PASSWORD
+        end
+        MeetingParticipation.find_or_create_by!(meeting: meeting, user: organizer_user) do |participant|
+          participant.organizer = true
+        end
+
+        ## Attendees
+        attendee_emails = event.attendee.map(&:to)
+        attendee_emails.delete(organizer_email)
+        attendee_users =  attendee_emails.map do |email|
+          User.find_or_create_by!(email: email) do |user|
+            user.password = DEFAULT_PASSWORD
+          end
+        end
+        MeetingParticipation.where(meeting: meeting, organizer: false).where.not(user: attendee_users).delete_all
+        attendee_users.each do |user|
+          MeetingParticipation.find_or_create_by!(meeting: meeting, user: user) do |participant|
+            participant.organizer = false
+          end
+        end
 
         meeting.save!
 
