@@ -13,16 +13,16 @@ describe User do
 
     it 'does not orphan meeting_participations when users are deleted' do
       meeting_participation = FactoryGirl.create(:meeting_participation, :user => user)
-      expect(MeetingParticipation.exists?(meeting_participation)).to eq(true)
+      expect(MeetingParticipation.exists?(id: meeting_participation.id)).to be_truthy
       user.destroy
-      expect(MeetingParticipation.exists?(meeting_participation)).to eq(false)
+      expect(MeetingParticipation.exists?(id: meeting_participation.id)).to be_falsey
     end
 
     it 'does not orphan meeting_answers when users are deleted' do
       meeting_answer = FactoryGirl.create(:meeting_answer, :user => user)
-      expect(MeetingAnswer.exists?(meeting_answer)).to eq(true)
+      expect(MeetingAnswer.exists?(id: meeting_answer.id)).to be_truthy
       user.destroy
-      expect(MeetingAnswer.exists?(meeting_answer)).to eq(false)
+      expect(MeetingAnswer.exists?(id: meeting_answer.id)).to be_falsey
     end
   end
 end

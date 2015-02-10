@@ -33,12 +33,12 @@ ActiveRecord::Schema.define(version: 20150209111441) do
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
   create_table "admin_users", force: :cascade do |t|
-    t.string   "email",                  limit: 255, default: "", null: false
-    t.string   "encrypted_password",     limit: 255, default: "", null: false
-    t.string   "reset_password_token",   limit: 255
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -53,8 +53,8 @@ ActiveRecord::Schema.define(version: 20150209111441) do
   create_table "meeting_answers", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "meeting_id"
-    t.string   "question",   limit: 255
-    t.string   "answer",     limit: 255
+    t.string   "question"
+    t.string   "answer"
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -67,14 +67,14 @@ ActiveRecord::Schema.define(version: 20150209111441) do
     t.boolean  "confirmed_attendance"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "link_code",            limit: 255
+    t.string   "link_code"
   end
 
   add_index "meeting_participations", ["meeting_id"], name: "index_meeting_participations_on_meeting_id", using: :btree
   add_index "meeting_participations", ["user_id"], name: "index_meeting_participations_on_user_id", using: :btree
 
   create_table "meetings", force: :cascade do |t|
-    t.string   "summary",      limit: 255
+    t.string   "summary"
     t.datetime "start_time"
     t.datetime "end_time"
     t.datetime "created_at"
@@ -90,19 +90,19 @@ ActiveRecord::Schema.define(version: 20150209111441) do
   add_index "meetings", ["uid"], name: "index_meetings_on_uid", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 255, default: "", null: false
-    t.string   "encrypted_password",     limit: 255, default: "", null: false
-    t.string   "reset_password_token",   limit: 255
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name",                   limit: 255
+    t.string   "name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
