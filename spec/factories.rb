@@ -1,5 +1,7 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
+# TODO: split factories to separate files
+
 require 'securerandom'
 
 FactoryGirl.define do

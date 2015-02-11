@@ -1,27 +1,32 @@
-#!/usr/bin/env ruby
-
-require "rubygems"
 require "icalendar"
-require "bundler/setup"
 require "mailman"
+require 'figaro'
 
-DEFAULT_PASSWORD = '1234567890'
+module EmailChecker
+  DEFAULT_PASSWORD = '1234567890'
 
-Mailman.config.imap = {
-    server: 'imap.gmail.com',
-    port: 993,  # usually 995, 993 for gmail
-    ssl: true,
-    domain: (ENV['MAILMAN_DOMAIN'] || 'rubyriders.com'),
-    username: (ENV['MAILMAN_USERNAME'] || 'meetingsurvey@rubyriders.com'),
-    password: (ENV['MAILMAN_PASSWORD'] || '@fLJS3!@ds')
-}
+  Mailman.config.imap = {
+      server: 'imap.gmail.com',
+      port: 993,  # usually 995, 993 for gmail
+      ssl: true,
+      domain: (ENV['MAILMAN_DOMAIN'] || 'rubyriders.com'),
+      username: (ENV['MAILMAN_USERNAME'] || 'meetingsurvey@rubyriders.com'),
+      password: (ENV['MAILMAN_PASSWORD'] || '@fLJS3!@ds')
+  }
 
-# Mailman.config.ignore_stdin = true
-Mailman.config.poll_interval = 0
-# Mailman.config.maildir = '~/Maildir'
+  # Mailman.config.ignore_stdin = true
+  Mailman.config.poll_interval = 0
+  # Mailman.config.maildir = '~/Maildir'
 
-Mailman::Application.run do
-  default do
+  def self.run
+    Mailman::Application.run do
+      default do
+        EmailChecker.process_message(message)
+      end
+    end
+  end
+
+  def self.process_message(message)
     message.attachments.each do |attachment|
       if /application\/ics/ =~ attachment.content_type
         cals = Icalendar.parse(attachment.body)
@@ -39,26 +44,27 @@ Mailman::Application.run do
         meeting.location      = event.location.to_s
         meeting.status        = event.status.to_s
 
-        rule = {}
+        if event.rrule.first
+          rule = {}
+          event_rule = event.rrule.first
+          rule[:frequency]        = event_rule.frequency
+          rule[:until]            = event_rule.until
+          rule[:count]            = event_rule.count
+          rule[:interval]         = event_rule.interval
+          rule[:by_second]        = event_rule.by_second
+          rule[:by_minute]        = event_rule.by_minute
+          rule[:by_hour]          = event_rule.by_hour
+          rule[:by_day]           = event_rule.by_day
+          rule[:by_month_day]     = event_rule.by_month_day
+          rule[:by_year_day]      = event_rule.by_year_day
+          rule[:by_week_number]   = event_rule.by_week_number
+          rule[:by_month]         = event_rule.by_month
+          rule[:by_set_position]  = event_rule.by_set_position
+          rule[:week_start]       = event_rule.week_start
 
-        # TODO: add existing check for event.rrule.first if needed
-        event_rule = event.rrule.first
-        rule[:frequency]        = event_rule.frequency
-        rule[:until]            = event_rule.until
-        rule[:count]            = event_rule.count
-        rule[:interval]         = event_rule.interval
-        rule[:by_second]        = event_rule.by_second
-        rule[:by_minute]        = event_rule.by_minute
-        rule[:by_hour]          = event_rule.by_hour
-        rule[:by_day]           = event_rule.by_day
-        rule[:by_month_day]     = event_rule.by_month_day
-        rule[:by_year_day]      = event_rule.by_year_day
-        rule[:by_week_number]   = event_rule.by_week_number
-        rule[:by_month]         = event_rule.by_month
-        rule[:by_set_position]  = event_rule.by_set_position
-        rule[:week_start]       = event_rule.week_start
+          meeting.repeat_rule = rule
+        end
 
-        meeting.repeat_rule = rule
 
         # Add participations
         ## Organizer
@@ -103,4 +109,6 @@ Mailman::Application.run do
       end
     end
   end
+
+
 end
