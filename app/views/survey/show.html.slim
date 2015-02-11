@@ -1,0 +1,65 @@
+h3 Welcome
+table
+  tr
+    td Summary:
+    td = @meeting.summary
+  tr
+    td Description:
+    td = @meeting.description
+  tr
+    td Organizer:
+    /td = @meeting.meeting_participations.where(organizer: true).first.user.email
+    td = @meeting.organizer.email
+
+= form_tag('/survey') do
+  .question
+    = label_tag :question_1, '1. Was the meeting relevant to you?'
+    br
+    = radio_button_tag :question_1, true, checked: false
+    = label_tag :question_1, 'Yes', value: true
+    br
+    = radio_button_tag :question_1, false, checked: false
+    = label_tag :question_1, 'No', value: false
+
+  .question
+    = label_tag :question_2, '2. Was the purpose of the meeting clear?'
+    br
+    = radio_button_tag :question_2, true, checked: false
+    = label_tag :question_2, 'Yes', value: true
+    br
+    = radio_button_tag :question_2, false, checked: false
+    = label_tag :question_2, 'No', value: false
+
+  .question
+    = label_tag :question_3, '3. Did the meeting have the right people?'
+    br
+    = radio_button_tag :question_3, true, checked: false
+    = label_tag :question_3, 'Yes', value: true
+    br
+    = radio_button_tag :question_3, false, checked: false
+    = label_tag :question_3, 'No', value: false
+
+  .question
+    = label_tag :question_4, '4. Did the meeting have good communication?'
+    br
+    = radio_button_tag :question_4, true, checked: false
+    = label_tag :question_4, 'Yes', value: true
+    br
+    = radio_button_tag :question_4, false, checked: false
+    = label_tag :question_4, 'No', value: false
+
+  .question
+    = label_tag :question_5, '5. Were there clear takeaways or action items?'
+    br
+    = radio_button_tag :question_5, true, checked: false
+    = label_tag :question_5, 'Yes', value: true
+    br
+    = radio_button_tag :question_5, false, checked: false
+    = label_tag :question_5, 'No', value: false
+
+  .question
+    = label_tag :question_6, '6. Please leave any other feedback'
+    br
+    = text_area_tag :question_6
+
+  = submit_tag 'Send'

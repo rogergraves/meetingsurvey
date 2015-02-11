@@ -2,8 +2,8 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
-  get '/survey/:link_code', :to => 'survey#index', :as => 'survey_index'
-  post '/survey/:link_code', :to => 'survey#create', :as => 'survey'
+  get '/survey/:link_code', :to => 'survey#show', :as => 'survey'
+  post '/survey', :to => 'survey#create'
 
   devise_for :users
 

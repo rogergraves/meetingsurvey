@@ -1,11 +1,12 @@
 class SurveyController < ApplicationController
-  before_action :lookup_link_code
+  before_action :lookup_link_code, only: [:show]
 
-  def index
+  def show
 
   end
 
   def create
+    render text: params
   end
 
   private
