@@ -265,6 +265,10 @@ GEM
     rest-client (1.6.8)
       mime-types (~> 1.16)
       rdoc (>= 2.4.2)
+    rspec (3.0.0)
+      rspec-core (~> 3.0.0)
+      rspec-expectations (~> 3.0.0)
+      rspec-mocks (~> 3.0.0)
     rspec-activemodel-mocks (1.0.1)
       activemodel (>= 3.0)
       activesupport (>= 3.0)
@@ -331,6 +335,9 @@ GEM
       hitimes
     turbolinks (2.5.3)
       coffee-rails
+    turnip (1.2.4)
+      gherkin (>= 2.5)
+      rspec (>= 2.14.0, < 4.0)
     twitter-bootstrap-rails (3.2.0)
       actionpack (~> 4.1)
       execjs (~> 2.2)
@@ -391,6 +398,7 @@ DEPENDENCIES
   slim-rails (~> 3.0.1)
   therubyracer (~> 0.12.1)
   turbolinks
+  turnip (~> 1.2.4)
   twitter-bootstrap-rails (~> 3.2.0)
   uglifier (~> 2.5.3)
   unicorn (~> 4.7.0)

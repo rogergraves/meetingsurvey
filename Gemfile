@@ -49,5 +49,6 @@ group :test do
   gem 'capybara-firebug', '~> 2.0.0'                  # Provides a dead-simple way to run scenarios with Firebug enabled under the selenium driver https://github.com/jfirebaugh/capybara-firebug
   gem 'cucumber-rails', '~> 1.4.0', require: false    # Cucumber Generator and Runtime for Rails
   gem 'factory_girl_rails', '~> 4.5.0'                # https://github.com/thoughtbot/factory_girl_rails
+  gem 'turnip', '~> 1.2.4'                            # Provides the ability to define steps and run Gherkin files from with RSpec
 end
 
