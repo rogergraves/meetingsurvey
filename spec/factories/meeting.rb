@@ -1,23 +1,6 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
-
-# TODO: split factories to separate files
-
 require 'securerandom'
 
 FactoryGirl.define do
-  sequence :email do |n|
-    "user#{n}@factory.com"
-  end
-  sequence :name do |n|
-    "Joe Schmoe#{n}"
-  end
-
-  factory :user do
-    email
-    password "1Password!2"
-    name
-  end
-
   factory :meeting do
     summary "Cool Meeting"
     description "Some description text"
@@ -44,20 +27,5 @@ FactoryGirl.define do
         :by_set_position => nil,
         :week_start => nil
     )
-  end
-
-  factory :meeting_participation do
-    user
-    meeting
-    organizer false
-    confirmed_attendance [true, false].sample()
-  end
-
-  factory :meeting_answer do
-    user
-    meeting
-    question { Faker::Lorem.sentence.gsub('.', '?') }
-    answer ['Yes', 'No'].sample()
-    comments [nil, Faker::Lorem.sentence].sample()
   end
 end
