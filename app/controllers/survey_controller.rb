@@ -6,7 +6,21 @@ class SurveyController < ApplicationController
   end
 
   def create
-    render text: params
+    # TODO: add error catching
+    participant = MeetingParticipation.find_by(link_code: params[:link_code])
+    meeting = Meeting.lookup(params[:link_code])
+
+    1.upto(6) do |i|
+      MeetingAnswer.create( user_id: participant.user_id,
+                            meeting_id: meeting.id,
+                            question: params["question_#{i}"],
+                            answer: params["answer_#{i}"]
+      )
+    end
+
+
+    render text: "Thank You!"
+    # render text: "qwe #{participant.link_code}"
   end
 
   private

@@ -8,58 +8,64 @@ table
     td = @meeting.description
   tr
     td Organizer:
-    /td = @meeting.meeting_participations.where(organizer: true).first.user.email
     td = @meeting.organizer.email
 
 = form_tag('/survey') do
-  .question
+  = hidden_field_tag :link_code, params[:link_code]
+  #question_1
     = label_tag :question_1, '1. Was the meeting relevant to you?'
+    = hidden_field_tag :question_1, 'Was the meeting relevant to you?'
     br
-    = radio_button_tag :question_1, true, checked: false
-    = label_tag :question_1, 'Yes', value: true
+    = radio_button_tag :answer_1, "Yes", checked: "No"
+    = label_tag :answer_1, 'Yes', value: "Yes"
     br
-    = radio_button_tag :question_1, false, checked: false
-    = label_tag :question_1, 'No', value: false
+    = radio_button_tag :answer_1, "No", checked: "No"
+    = label_tag :answer_1, 'No', value: "No"
 
-  .question
+  #question_2
     = label_tag :question_2, '2. Was the purpose of the meeting clear?'
+    = hidden_field_tag :question_2, 'Was the purpose of the meeting clear?'
     br
-    = radio_button_tag :question_2, true, checked: false
-    = label_tag :question_2, 'Yes', value: true
+    = radio_button_tag :answer_2, "Yes", checked: "No"
+    = label_tag :answer_2, 'Yes', value: "Yes"
     br
-    = radio_button_tag :question_2, false, checked: false
-    = label_tag :question_2, 'No', value: false
+    = radio_button_tag :answer_2, "No", checked: "No"
+    = label_tag :answer_2, 'No', value: "No"
 
-  .question
+  #question_3
     = label_tag :question_3, '3. Did the meeting have the right people?'
+    = hidden_field_tag :question_3, 'Did the meeting have the right people?'
     br
-    = radio_button_tag :question_3, true, checked: false
-    = label_tag :question_3, 'Yes', value: true
+    = radio_button_tag :answer_3, "Yes", checked: "No"
+    = label_tag :answer_3, 'Yes', value: "Yes"
     br
-    = radio_button_tag :question_3, false, checked: false
-    = label_tag :question_3, 'No', value: false
+    = radio_button_tag :answer_3, "No", checked: "No"
+    = label_tag :answer_3, 'No', value: "No"
 
-  .question
+  #question_4
     = label_tag :question_4, '4. Did the meeting have good communication?'
+    = hidden_field_tag :question_4, 'Did the meeting have good communication?'
     br
-    = radio_button_tag :question_4, true, checked: false
-    = label_tag :question_4, 'Yes', value: true
+    = radio_button_tag :answer_4, "Yes", checked: "No"
+    = label_tag :answer_4, 'Yes', value: "Yes"
     br
-    = radio_button_tag :question_4, false, checked: false
-    = label_tag :question_4, 'No', value: false
+    = radio_button_tag :answer_4, "No", checked: "No"
+    = label_tag :answer_4, 'No', value: "No"
 
-  .question
+  #question_5
     = label_tag :question_5, '5. Were there clear takeaways or action items?'
+    = hidden_field_tag :question_5, 'Were there clear takeaways or action items?'
     br
-    = radio_button_tag :question_5, true, checked: false
-    = label_tag :question_5, 'Yes', value: true
+    = radio_button_tag :answer_5, "Yes", checked: "No"
+    = label_tag :answer_5, 'Yes', value: "Yes"
     br
-    = radio_button_tag :question_5, false, checked: false
-    = label_tag :question_5, 'No', value: false
+    = radio_button_tag :answer_5, "No", checked: "No"
+    = label_tag :answer_5, 'No', value: "No"
 
-  .question
+  #question_6
     = label_tag :question_6, '6. Please leave any other feedback'
+    = hidden_field_tag :question_6, 'Please leave any other feedback'
     br
-    = text_area_tag :question_6
+    = text_area_tag :answer_6
 
   = submit_tag 'Send'
