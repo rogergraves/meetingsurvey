@@ -1,18 +1,24 @@
 class SurveyController < ApplicationController
-  before_action :lookup_link_code, only: [:show]
+  before_action :lookup_link_code
 
   def show
-
+    @questions = [
+        { question: "Was the meeting relevant to you?", type: :yes_or_no },
+        { question: "Was the purpose of the meeting clear?", type: :yes_or_no },
+        { question: "Did the meeting have the right people?", type: :yes_or_no },
+        { question: "Did the meeting have good communication?", type: :yes_or_no },
+        { question: "Were there clear takeaways or action items?", type: :yes_or_no },
+        { question: "Please leave any other feedback", type: :text },
+    ]
   end
 
   def create
     # TODO: add error catching
     participant = MeetingParticipation.find_by(link_code: params[:link_code])
-    meeting = Meeting.lookup(params[:link_code])
 
     1.upto(6) do |i|
       MeetingAnswer.create( user_id: participant.user_id,
-                            meeting_id: meeting.id,
+                            meeting_id: @meeting.id,
                             question: params["question_#{i}"],
                             answer: params["answer_#{i}"]
       )
@@ -20,7 +26,6 @@ class SurveyController < ApplicationController
 
 
     render text: "Thank You!"
-    # render text: "qwe #{participant.link_code}"
   end
 
   private
