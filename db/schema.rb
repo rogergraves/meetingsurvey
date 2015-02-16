@@ -11,19 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150209111441) do
+ActiveRecord::Schema.define(version: 20150216141234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
 
   create_table "active_admin_comments", force: :cascade do |t|
-    t.string   "namespace",     limit: 255
+    t.string   "namespace"
     t.text     "body"
-    t.string   "resource_id",   limit: 255, null: false
-    t.string   "resource_type", limit: 255, null: false
+    t.string   "resource_id",   null: false
+    t.string   "resource_type", null: false
     t.integer  "author_id"
-    t.string   "author_type",   limit: 255
+    t.string   "author_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -58,6 +58,14 @@ ActiveRecord::Schema.define(version: 20150209111441) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "meeting_occurrences", force: :cascade do |t|
+    t.integer  "meeting_id"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "meeting_participations", force: :cascade do |t|

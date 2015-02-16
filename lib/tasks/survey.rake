@@ -6,4 +6,12 @@ namespace :survey do
     EmailChecker.run
   end
 
+  desc "Clear all"
+  task clear: :environment do
+    MeetingAnswer.delete_all
+    MeetingOccurrence.delete_all
+    Meeting.delete_all
+    User.delete_all
+  end
+
 end

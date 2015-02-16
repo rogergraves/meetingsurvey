@@ -34,7 +34,7 @@ module EmailChecker
         event = cal.events.first
 
         # Add meeting
-        meeting = Meeting.find_or_create_by!(uid: event.uid.to_s)
+        meeting = Meeting.find_or_initialize_by(uid: event.uid.to_s)
 
         meeting.summary       = event.summary.to_s
         meeting.description   = event.description.to_s
@@ -65,6 +65,7 @@ module EmailChecker
           meeting.repeat_rule = rule
         end
 
+        meeting.save!
 
         # Add participations
         ## Organizer
@@ -90,8 +91,6 @@ module EmailChecker
             participant.organizer = false
           end
         end
-
-        meeting.save!
 
         # puts "summary: #{event.summary}"
         # puts "description: #{event.description}"
