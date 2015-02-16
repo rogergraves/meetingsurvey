@@ -1,6 +1,7 @@
-class MeetingParticipation < ActiveRecord::Base
+# MeetingParticipation
+class SurveyInvite < ActiveRecord::Base
   belongs_to :user
-  belongs_to :meeting
+  belongs_to :meeting_occurrence
 
   before_create :generate_link_code_if_missing
   validates_presence_of :user, :meeting
@@ -15,7 +16,7 @@ class MeetingParticipation < ActiveRecord::Base
       query_string = nil
       string_length = 20
 
-      while query_string.nil? || MeetingParticipation.where(:link_code => query_string).present?
+      while query_string.nil? || SurveyInvite.where(:link_code => query_string).present?
         query_string = rand(36**string_length).to_s(36)
         string_length += 1
       end

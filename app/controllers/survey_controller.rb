@@ -14,11 +14,11 @@ class SurveyController < ApplicationController
 
   def create
     # TODO: add error catching
-    participant = MeetingParticipation.find_by(link_code: params[:link_code])
+    invite = SurveyInvite.find_by(link_code: params[:link_code])
 
     1.upto(6) do |i|
-      MeetingAnswer.create( user_id: participant.user_id,
-                            meeting_id: @meeting.id,
+      MeetingAnswer.create( user_id: invite.user_id,
+                            meeting_occurrence_id: invite.meeting_occurrence.id,
                             question: params["question_#{i}"],
                             answer: params["answer_#{i}"]
       )

@@ -12,9 +12,9 @@ describe Meeting do
     it { should have_many(:meeting_answers) }
     it 'does not orphan meeting_participations when meeting is deleted' do
       meeting_participation = FactoryGirl.create(:meeting_participation, :meeting => meeting)
-      expect(MeetingParticipation.exists?(id: meeting_participation.id)).to be_truthy
+      expect(SurveyInvite.exists?(id: meeting_participation.id)).to be_truthy
       meeting.destroy
-      expect(MeetingParticipation.exists?(id: meeting_participation.id)).to be_falsey
+      expect(SurveyInvite.exists?(id: meeting_participation.id)).to be_falsey
     end
 
     it 'does not orphan meeting_answers when meeting is deleted' do

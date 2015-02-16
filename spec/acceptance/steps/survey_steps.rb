@@ -9,7 +9,7 @@ module SurveySteps
   end
 
   step "Visit survey" do
-    visit "/survey/#{MeetingParticipation.first.link_code}"
+    visit "/survey/#{SurveyInvite.first.link_code}"
   end
 
   step "Fill up and submit survey form" do

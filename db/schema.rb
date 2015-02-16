@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150216141234) do
+ActiveRecord::Schema.define(version: 20150216143000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,19 +68,6 @@ ActiveRecord::Schema.define(version: 20150216141234) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "meeting_participations", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "meeting_id"
-    t.boolean  "organizer"
-    t.boolean  "confirmed_attendance"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "link_code"
-  end
-
-  add_index "meeting_participations", ["meeting_id"], name: "index_meeting_participations_on_meeting_id", using: :btree
-  add_index "meeting_participations", ["user_id"], name: "index_meeting_participations_on_user_id", using: :btree
-
   create_table "meetings", force: :cascade do |t|
     t.string   "summary"
     t.datetime "start_time"
@@ -96,6 +83,16 @@ ActiveRecord::Schema.define(version: 20150216141234) do
   end
 
   add_index "meetings", ["uid"], name: "index_meetings_on_uid", unique: true, using: :btree
+
+  create_table "survey_invites", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "meeting_occurrence_id"
+    t.boolean  "confirmed_attendance"
+    t.datetime "email_sent"
+    t.string   "link_code"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

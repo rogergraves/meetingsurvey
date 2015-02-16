@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MeetingParticipation do
+describe SurveyInvite do
   let(:meeting_participation) { FactoryGirl.create(:meeting_participation) }
 
   it 'Factory works' do
