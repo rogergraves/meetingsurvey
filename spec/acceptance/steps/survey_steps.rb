@@ -27,7 +27,7 @@ module SurveySteps
   end
 
   step "Verify that data was saved successfully in the database" do
-    expect(MeetingAnswer.count).to eq(6)
+    expect(SurveyAnswer.count).to eq(6)
   end
 end
 

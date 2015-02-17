@@ -8,7 +8,7 @@ namespace :survey do
 
   desc "Clear all"
   task clear: :environment do
-    MeetingAnswer.delete_all
+    SurveyAnswer.delete_all
     MeetingOccurrence.delete_all
     Meeting.delete_all
     User.delete_all

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MeetingAnswer do
+describe SurveyAnswer do
   let(:meeting_answer) { FactoryGirl.create(:meeting_answer, :question => 'Did you have a good time?', :answer => 'Yes') }
 
   it 'Factory works' do

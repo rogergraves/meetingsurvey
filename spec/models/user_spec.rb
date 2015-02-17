@@ -20,9 +20,9 @@ describe User do
 
     it 'does not orphan meeting_answers when users are deleted' do
       meeting_answer = FactoryGirl.create(:meeting_answer, :user => user)
-      expect(MeetingAnswer.exists?(id: meeting_answer.id)).to be_truthy
+      expect(SurveyAnswer.exists?(id: meeting_answer.id)).to be_truthy
       user.destroy
-      expect(MeetingAnswer.exists?(id: meeting_answer.id)).to be_falsey
+      expect(SurveyAnswer.exists?(id: meeting_answer.id)).to be_falsey
     end
   end
 end

@@ -5,6 +5,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :survey_invites, :dependent => :destroy
-  has_many :meeting_answers, :dependent => :destroy
+  has_many :survey_answers, :dependent => :destroy
   has_many :meeting_users
 end

@@ -19,9 +19,9 @@ describe Meeting do
 
     it 'does not orphan meeting_answers when meeting is deleted' do
       meeting_answer = FactoryGirl.create(:meeting_answer, :meeting => meeting)
-      expect(MeetingAnswer.exists?(id: meeting_answer.id)).to be_truthy
+      expect(SurveyAnswer.exists?(id: meeting_answer.id)).to be_truthy
       meeting.destroy
-      expect(MeetingAnswer.exists?(id: meeting_answer.id)).to be_falsey
+      expect(SurveyAnswer.exists?(id: meeting_answer.id)).to be_falsey
     end
   end
 

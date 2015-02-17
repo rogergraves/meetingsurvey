@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150217115919) do
+ActiveRecord::Schema.define(version: 20150217152230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,16 +50,6 @@ ActiveRecord::Schema.define(version: 20150217115919) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "meeting_answers", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "meeting_id"
-    t.string   "question"
-    t.string   "answer"
-    t.text     "comments"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "meeting_occurrences", force: :cascade do |t|
     t.integer  "meeting_id"
     t.datetime "start_time"
@@ -94,6 +84,16 @@ ActiveRecord::Schema.define(version: 20150217115919) do
   end
 
   add_index "meetings", ["uid"], name: "index_meetings_on_uid", unique: true, using: :btree
+
+  create_table "survey_answers", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "question"
+    t.string   "answer"
+    t.text     "why"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "meeting_occurrence_id"
+  end
 
   create_table "survey_invites", force: :cascade do |t|
     t.integer  "user_id"
