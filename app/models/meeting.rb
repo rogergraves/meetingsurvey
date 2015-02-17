@@ -4,6 +4,7 @@ class Meeting < ActiveRecord::Base
   has_many :survey_invites, :dependent => :destroy
   has_many :meeting_answers, :dependent => :destroy
   has_many :meeting_occurrences
+  has_many :meeting_users
 
   after_save :set_up_occurrence
 

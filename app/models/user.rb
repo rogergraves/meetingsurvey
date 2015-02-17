@@ -6,4 +6,5 @@ class User < ActiveRecord::Base
 
   has_many :survey_invites, :dependent => :destroy
   has_many :meeting_answers, :dependent => :destroy
+  has_many :meeting_users
 end

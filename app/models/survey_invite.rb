@@ -4,10 +4,9 @@ class SurveyInvite < ActiveRecord::Base
   belongs_to :meeting_occurrence
 
   before_create :generate_link_code_if_missing
-  validates_presence_of :user, :meeting
+  validates_presence_of :user, :meeting_occurrence
   validates_uniqueness_of :link_code
-  validates_uniqueness_of :meeting_id, :scope => :user_id
-  validates_uniqueness_of :organizer, :if => :organizer, :scope => :meeting_id
+  validates_uniqueness_of :meeting_occurrence_id, :scope => :user_id
 
   private
 

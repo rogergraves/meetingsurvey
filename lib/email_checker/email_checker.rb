@@ -75,6 +75,9 @@ module EmailChecker
           user.password = DEFAULT_PASSWORD
         end
         SurveyInvite.find_or_create_by!(meeting_occurrence: meeting_occurrence, user: organizer_user)
+        MeetingUser.find_or_create_by!(meeting: meeting, user: organizer_user) do |u|
+          u.organizer = true
+        end
 
         ## Attendees
         attendee_emails = event.attendee.map(&:to)
@@ -87,6 +90,9 @@ module EmailChecker
         SurveyInvite.where(meeting_occurrence: meeting_occurrence).where.not(user: attendee_users).delete_all
         attendee_users.each do |user|
           SurveyInvite.find_or_create_by!(meeting_occurrence: meeting_occurrence, user: user)
+          MeetingUser.find_or_create_by!(meeting: meeting, user: user) do |u|
+            u.organizer = false
+          end
         end
 
         # puts "summary: #{event.summary}"
