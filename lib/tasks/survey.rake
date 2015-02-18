@@ -10,6 +10,7 @@ namespace :survey do
   task clear: :environment do
     SurveyAnswer.delete_all
     MeetingOccurrence.delete_all
+    MeetingUser.delete_all
     Meeting.delete_all
     User.delete_all
   end
