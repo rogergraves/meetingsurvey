@@ -46,6 +46,17 @@ Rails.application.configure do
   # }
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      address:              'smtp.gmail.com',
+      port:                 587,
+      domain:               'rubyriders.com',
+      user_name:            'meetingsurvey@rubyriders.com',
+      password:             '@fLJS3!@ds',
+      authentication:       'plain',
+      enable_starttls_auto: true
+  }
+
   ENV['MAILMAN_DOMAIN'] = 'rubyriders.com'
   ENV['MAILMAN_USERNAME'] = 'meetingsurvey@rubyriders.com'
   ENV['MAILMAN_PASSWORD'] = '@fLJS3!@ds'

@@ -1,0 +1,5 @@
+= "#{@organizer.email} would like to get some quick feedback on the meeting #{@survey_invite.meeting_occurrence.meeting.summary}."
+br
+= link_to "I attended", controller: 'survey', action: 'confirm_attendance', link_code: @survey_invite.link_code
+br
+= link_to "I Wasn't There", controller: 'survey', action: 'refuse_attendance', link_code: @survey_invite.link_code

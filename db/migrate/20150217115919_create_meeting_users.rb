@@ -3,7 +3,7 @@ class CreateMeetingUsers < ActiveRecord::Migration
     create_table :meeting_users do |t|
       t.references :user, index: true
       t.references :meeting, index: true
-      t.boolean :organizer
+      t.boolean :organizer, default: false
 
       t.timestamps null: false
     end

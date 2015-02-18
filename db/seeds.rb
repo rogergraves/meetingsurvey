@@ -51,3 +51,11 @@ end
   end
   meeting.meeting_users.take.update!(organizer: true)
 end
+
+# For debugging
+meeting = generate_meeting
+meeting.meeting_occurrences.first
+my_user = User.create!(email: 'kasianov.michael@gmail.com', password: '12345678')
+MeetingUser.create!(meeting: meeting, user: my_user)
+organizer_user = User.create!(email: Faker::Internet.email, password: '12345678' )
+MeetingUser.create!(meeting: meeting, user: organizer_user, organizer: true)

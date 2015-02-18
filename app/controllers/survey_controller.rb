@@ -1,5 +1,6 @@
 class SurveyController < ApplicationController
-  before_action :lookup_link_code
+  before_action :lookup_link_code, only: [:show, :create]
+  before_action :set_survey_invite, only: [:confirm_attendance, :refuse_attendance]
 
   def show
     @questions = [
@@ -28,11 +29,25 @@ class SurveyController < ApplicationController
     render text: "Thank You!"
   end
 
+  def confirm_attendance
+    @survey_invite.update!(confirmed_attendance: true)
+    render text: 'Confirmed'
+  end
+
+  def refuse_attendance
+    @survey_invite.update!(confirmed_attendance: false)
+    render text: 'Refused'
+  end
+
   private
 
   def lookup_link_code
     unless @meeting = Meeting.lookup(params[:link_code])
       redirect_to home_index_path, :flash => { :alert => "Meeting not found" }
     end
+  end
+
+  def set_survey_invite
+    @survey_invite = SurveyInvite.find_by(link_code: params[:link_code])
   end
 end

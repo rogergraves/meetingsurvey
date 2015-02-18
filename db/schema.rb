@@ -61,9 +61,9 @@ ActiveRecord::Schema.define(version: 20150217152230) do
   create_table "meeting_users", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "meeting_id"
-    t.boolean  "organizer"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.boolean  "organizer",  default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   add_index "meeting_users", ["meeting_id"], name: "index_meeting_users_on_meeting_id", using: :btree
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 20150217152230) do
   create_table "survey_invites", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "meeting_occurrence_id"
-    t.boolean  "confirmed_attendance"
+    t.boolean  "confirmed_attendance",  default: false
     t.datetime "email_sent"
     t.string   "link_code"
     t.datetime "created_at"

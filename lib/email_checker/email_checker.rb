@@ -18,7 +18,7 @@ module EmailChecker
   Mailman.config.poll_interval = 0
   # Mailman.config.maildir = '~/Maildir'
 
-  def self.run
+  def self.check_email
     Mailman::Application.run do
       default do
         EmailChecker.process_message(message)
@@ -74,7 +74,7 @@ module EmailChecker
         organizer_user = User.find_or_create_by!(email: organizer_email) do |user|
           user.password = DEFAULT_PASSWORD
         end
-        SurveyInvite.find_or_create_by!(meeting_occurrence: meeting_occurrence, user: organizer_user)
+        # SurveyInvite.find_or_create_by!(meeting_occurrence: meeting_occurrence, user: organizer_user)
         MeetingUser.find_or_create_by!(meeting: meeting, user: organizer_user) do |u|
           u.organizer = true
         end
@@ -112,5 +112,18 @@ module EmailChecker
     end
   end
 
-
+  def self.send_invites
+    occurrences = MeetingOccurrence.joins('LEFT JOIN survey_invites ON survey_invites.meeting_occurrence_id = meeting_occurrences.id').where('end_time > ? AND survey_invites.id ISNULL', Time.now)
+    occurrences.each do |occurrence|
+      organizer_user = occurrence.meeting.meeting_users.where('organizer = true').take
+      meeting_users = occurrence.meeting.meeting_users.where('organizer = false')
+      meeting_users.each do |meeting_user|
+        survey_invite = SurveyInvite.create!(meeting_occurrence: occurrence, user: meeting_user.user, email_sent: Time.now)
+        # TODO: setup some background worker for email sending
+        # SurveyMailer.survey_invite(meeting_user.user, organizer_user, survey_invite).deliver_later
+        SurveyMailer.survey_invite(meeting_user.user, organizer_user.user, survey_invite).deliver_now
+        puts("--- EMAIL SENT TO #{meeting_user.user.email}")
+      end
+    end
+  end
 end
