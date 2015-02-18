@@ -113,7 +113,7 @@ module EmailChecker
   end
 
   def self.send_invites
-    occurrences = MeetingOccurrence.joins('LEFT JOIN survey_invites ON survey_invites.meeting_occurrence_id = meeting_occurrences.id').where('end_time > ? AND survey_invites.id ISNULL', Time.now)
+    occurrences = MeetingOccurrence.fresh
     occurrences.each do |occurrence|
       organizer_user = occurrence.meeting.meeting_users.where('organizer = true').take
       meeting_users = occurrence.meeting.meeting_users.where('organizer = false')
