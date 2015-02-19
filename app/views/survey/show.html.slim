@@ -1,18 +1,20 @@
-h3 Welcome
-table
-  tr
-    td Summary:
-    td = @meeting.summary
-  tr
-    td Description:
-    td = @meeting.description
-  tr
-    td Organizer:
-    td = @meeting.organizer.email
+.row
+  .col-md-8.col-md-offset-2
+    h3 Welcome
+    table
+      tr
+        td Summary:
+        td = @meeting.summary
+      tr
+        td Description:
+        td = @meeting.description
+      tr
+        td Organizer:
+        td = @meeting.organizer.email
 
-= form_tag('/survey') do
-  = hidden_field_tag :link_code, params[:link_code]
-  - @questions.each_with_index do |question, i|
-    = survey_tag(question[:question], question[:type], i + 1)
+    = form_tag('/survey') do
+      = hidden_field_tag :link_code, params[:link_code]
+      - @questions.each_with_index do |question, i|
+        = survey_tag(question[:question], question[:type], i + 1)
 
-  = submit_tag 'Send'
+      = submit_tag 'Send'

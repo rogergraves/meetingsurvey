@@ -7,7 +7,7 @@ class Meeting < ActiveRecord::Base
   after_save :set_up_occurrence
 
   def organizer
-    meeting_participations.where(organizer: true).first.user
+    meeting_users.where(organizer: true).first.user
   end
 
   def self.lookup(link_code)

@@ -26,17 +26,17 @@ class SurveyController < ApplicationController
     end
 
 
-    render text: "Thank You!"
+    render text: 'Thank you!'
   end
 
   def confirm_attendance
     @survey_invite.update!(confirmed_attendance: true)
-    render text: 'Confirmed'
+    redirect_to survey_path(@survey_invite.link_code)
   end
 
   def refuse_attendance
     @survey_invite.update!(confirmed_attendance: false)
-    render text: 'Refused'
+    render text: 'Thank you!'
   end
 
   private

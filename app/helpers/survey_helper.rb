@@ -38,17 +38,47 @@ module SurveyHelper
     #   </div>
     # ).html_safe
 
+    # %Q(
+    #   <div class="question text-center">
+    #     <h3>#{question}</h3>
+    #     #{hidden_field_tag question_id, question}
+    #     <div id=#{question_id} class="question btn-group" data-toggle="buttons">
+    #       <label class="btn btn-primary active">
+    #         <input type="radio" name="#q{answer_id}" id="#{answer_id}_yes" autocomplete="off" checked>Yes
+    #       </label>
+    #       <label class="btn btn-primary">
+    #         <input type="radio" name="#q{answer_id}" id="#{answer_id}_no" autocomplete="off">No
+    #       </label>
+    #     </div>
+    #   </div>
+    #   <br>
+    # ).html_safe
+
+    # <label class="btn btn-primary btn-yes">
+    #        <input type="radio" name="#q{answer_id}" id="#{answer_id}_yes" autocomplete="off"><i class='fa fa-thumbs-o-up'></i>
+    #       </label>
+    # <label class="btn btn-primary btn-no">
+    # <input type="radio" name="#q{answer_id}" id="#{answer_id}_no" autocomplete="off"><i class='fa fa-thumbs-o-down'></i>
+    #       </label>
     %Q(
-      <div class="question text-center">
+      <div id=#{question_id} class="question text-center">
         <h3>#{question}</h3>
         #{hidden_field_tag question_id, question}
-        <div id=#{question_id} class="question btn-group" data-toggle="buttons">
-          <label class="btn btn-primary active">
-            <input type="radio" name="#q{answer_id}" id="#{answer_id}_yes" autocomplete="off" checked>Yes
+        <div class="buttons">
+          <label class="btn btn-primary btn-lg btn-yes">
+            <input type="radio" name="#{answer_id}" id="#{answer_id}_yes" autocomplete="off"><i class='fa fa-thumbs-o-up'></i>
           </label>
-          <label class="btn btn-primary">
-            <input type="radio" name="#q{answer_id}" id="#{answer_id}_no" autocomplete="off">No
+          <label class="btn btn-primary btn-lg btn-no">
+            <input type="radio" name="#{answer_id}" id="#{answer_id}_no" autocomplete="off"><i class='fa fa-thumbs-o-down'></i>
           </label>
+        </div>
+        <textarea class="why" cols="30" rows="3" placeholder="Optional comments here"></textarea>
+        <div class="text-center">
+          <a href="#" role="button" class="btn btn-default btn-lg btn-continue">
+            <i class='fa fa-check'></i>Continue
+          </a>
+          <br>
+          <span class="hotkey">SHIFT + ENTER</span>
         </div>
       </div>
       <br>
