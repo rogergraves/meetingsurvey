@@ -8,27 +8,27 @@ describe Meeting do
   end
 
   context 'Relationships' do
-    it { should have_many(:meeting_participations) }
-    it { should have_many(:meeting_answers) }
-    it 'does not orphan meeting_participations when meeting is deleted' do
-      meeting_participation = FactoryGirl.create(:meeting_participation, :meeting => meeting)
-      expect(SurveyInvite.exists?(id: meeting_participation.id)).to be_truthy
+    it { should have_many(:meeting_occurrences) }
+    it { should have_many(:meeting_users) }
+    it 'does not orphan meeting_occurrences when meeting is deleted' do
+      meeting_occurrence = FactoryGirl.create(:meeting_occurrence, meeting: meeting)
+      expect(MeetingOccurrence.exists?(id: meeting_occurrence.id)).to be_truthy
       meeting.destroy
-      expect(SurveyInvite.exists?(id: meeting_participation.id)).to be_falsey
+      expect(MeetingOccurrence.exists?(id: meeting_occurrence.id)).to be_falsey
     end
 
-    it 'does not orphan meeting_answers when meeting is deleted' do
-      meeting_answer = FactoryGirl.create(:meeting_answer, :meeting => meeting)
-      expect(SurveyAnswer.exists?(id: meeting_answer.id)).to be_truthy
+    it 'does not orphan meeting_users when meeting is deleted' do
+      meeting_user = FactoryGirl.create(:meeting_user, meeting: meeting)
+      expect(MeetingUser.exists?(id: meeting_user.id)).to be_truthy
       meeting.destroy
-      expect(SurveyAnswer.exists?(id: meeting_answer.id)).to be_falsey
+      expect(MeetingUser.exists?(id: meeting_user.id)).to be_falsey
     end
   end
 
   context "Class methods" do
     it "#self.lookup" do
-      meeting_participation = FactoryGirl.create(:meeting_participation, :meeting => meeting)
-      expect(Meeting.lookup(meeting_participation.link_code)).to eq(meeting)
+      survey_invite = FactoryGirl.create(:survey_invite, meeting_occurrence: meeting.meeting_occurrences.take)
+      expect(Meeting.lookup(survey_invite.link_code)).to eq(meeting)
     end
   end
 end

@@ -1,12 +1,13 @@
+require 'faker'
 require 'securerandom'
 
 FactoryGirl.define do
   factory :meeting do
-    summary "Cool Meeting"
-    description "Some description text"
-    start_time 24.hours.from_now
-    end_time 23.hours.from_now
-    created_time 25.hours.from_now
+    summary { Faker::Lorem.sentence }
+    description { Faker::Lorem.sentence }
+    start_time { 24.hours.from_now }
+    end_time { 23.hours.from_now }
+    created_time { 25.hours.from_now }
     location "New York, USA"
     status "CONFIRMED"
     uid { SecureRandom.hex }
