@@ -22,6 +22,7 @@ gem "twitter-bootstrap-rails", '~> 3.2.0'             # Is twitter bootstrap
 gem 'activeadmin', github: 'gregbell/active_admin'    # The administration framework for Ruby on Rails
 gem 'figaro', '~> 1.1.0'                              # ENV variables manager
 gem 'slim-rails', '~> 3.0.1'                          # Template language (like erb)
+gem 'premailer-rails', '~> 1.8.0'                     # Puts styles inline on emails that go out
 
 group :production do
   gem "rails_12factor", "~> 0.0.2"                    # Helps speed up deploys on heroku
