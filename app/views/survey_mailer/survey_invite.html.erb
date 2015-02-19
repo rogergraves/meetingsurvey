@@ -1,0 +1,67 @@
+<html>
+<head>
+  <style type="text/css">
+      body {
+          font-family: Arial, sans-serif;
+          font-size: 1.3em;
+          color: #666666;
+          text-align: left;
+      }
+      .big-button {
+          background-color: #ffffff;
+          width: 200px;
+          height: 60px;
+          -moz-border-radius: 5px;
+          -webkit-border-radius: 5px;
+          border-radius: 5px;
+          border: 1px solid #666666;
+      }
+      .big-button-link {
+          color: #666666;
+          font-size: 1.5em;
+          text-decoration: none;
+          display: inline-block;
+          padding: 12px 18px;
+      }
+      .main-message {
+        max-width: 400px;
+      }
+      table.center {
+          margin-left: 75px;
+      }
+  </style>
+</head>
+<body>
+<div class="main-message">
+  <p><%= @organizer.email %> would like to get some quick feedback on the meeting "<%= @survey_invite.meeting_occurrence.meeting.summary %>".</p>
+
+  <br>
+  <p>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="center">
+        <tr>
+          <td>
+            <table border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="center" class="big-button"><%= link_to("I Attended", confirm_attendance_url(@survey_invite.link_code), class: 'big-button-link', target: '_blank') %></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+  </p>
+  <p>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="center">
+        <tr>
+          <td>
+            <table border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="center" class="big-button"><%= link_to("I Wasn't There", refuse_attendance_url(@survey_invite.link_code), class: 'big-button-link', target: '_blank') %></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+  </p>
+</div>
+</body>
+</html>

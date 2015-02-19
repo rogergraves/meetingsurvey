@@ -4,7 +4,7 @@ class SurveyMailer < ApplicationMailer
     @user = user
     @organizer = organizer
     @survey_invite = survey_invite
-    mail(to: @user.email, subject: "Did you attend the #{survey_invite.meeting_occurrence.meeting.summary}")
+    mail(to: @user.email, subject: "Did you attend \"#{survey_invite.meeting_occurrence.meeting.summary.sub!(/[?.!,;]?$/, '')}\"?")
   end
 
   def hello
