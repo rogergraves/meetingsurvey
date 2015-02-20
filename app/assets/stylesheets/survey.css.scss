@@ -1,4 +1,12 @@
-.question {
+.survey {
+  .form-questions {
+    margin-top: 60px;
+  }
+
+  #question_1, #question_2, #question_3, #question_4, #question_5, #question_6, #submit-button {
+    display: none;
+  }
+
   h3 {
     color: #8C8C8C;
   }
@@ -16,12 +24,16 @@
     margin-top: 60px;
   }
 
+  .btn-yes, .btn-no {
+    border: solid 1px;
+  }
+
   .btn-yes.active {
-    background-color: #00BA59;
+    background-color: #06B009;
   }
 
   .btn-no.active {
-    background-color: #FF4449;
+    background-color: #ee9999;
   }
 
   .btn-continue {
@@ -29,6 +41,13 @@
     margin-top: 40px;
   }
 
+  .button-block {
+    display: none;
+  }
+
+  a:hover, a:visited, a:link, a:active {
+    text-decoration: none;
+  }
 
   .why {
     margin-top: 20px;
@@ -36,11 +55,36 @@
     border: 0;
     border-radius: 0;
     -webkit-border-radius: 0;
-    border-left: 2px solid #4fb0ae!important;
     resize: none;
     font-size: 24px;
     line-height: 30px;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    outline: none;
     display: none;
+    &.yes {
+      border-left: 2px solid #06B009 !important;
+      color: #06B009;
+    }
+    &.no {
+      border-left: 2px solid #ee9999 !important;
+      color: #ee9999;
+    }
+  }
+
+  .btn-yes {
+    &.active {
+
+    }
+  }
+
+  .btn-no {
+    &.active {
+      .why {
+
+      }
+    }
   }
 
   .hotkey {
