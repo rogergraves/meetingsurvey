@@ -3,8 +3,12 @@
     margin-top: 60px;
   }
 
-  #question_1, #question_2, #question_3, #question_4, #question_5, #question_6, #submit-button {
+  .question {
     display: none;
+  }
+
+  .on {
+    display: block;
   }
 
   h3 {
@@ -47,6 +51,14 @@
 
   a:hover, a:visited, a:link, a:active {
     text-decoration: none;
+  }
+
+  .text-input-legend {
+    font-size: .6em;
+    position: absolute;
+    color: #999999;
+    margin-left: 22px;
+    margin-top: -6px;
   }
 
   .why {
