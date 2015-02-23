@@ -157,6 +157,7 @@ GEM
     htmlentities (4.3.1)
     i18n (0.7.0)
     icalendar (2.2.2)
+    ice_cube (0.12.1)
     inherited_resources (1.6.0)
       actionpack (>= 3.2, < 5)
       has_scope (~> 0.6.0.rc)
@@ -390,6 +391,7 @@ DEPENDENCIES
   git-smart (~> 0.1.10)
   heroku (~> 3.6.0)
   icalendar (~> 2.2.2)
+  ice_cube (~> 0.12.1)
   jbuilder (~> 2.0)
   jquery-rails
   less-rails (~> 2.6.0)

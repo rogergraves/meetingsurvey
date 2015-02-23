@@ -23,6 +23,7 @@ gem 'activeadmin', github: 'gregbell/active_admin'    # The administration frame
 gem 'figaro', '~> 1.1.0'                              # ENV variables manager
 gem 'slim-rails', '~> 3.0.1'                          # Template language (like erb)
 gem 'premailer-rails', '~> 1.8.0'                     # Puts styles inline on emails that go out
+gem 'ice_cube', '~> 0.12.1'                           # recurring date library
 
 group :production do
   gem "rails_12factor", "~> 0.0.2"                    # Helps speed up deploys on heroku

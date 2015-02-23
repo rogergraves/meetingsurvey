@@ -1,4 +1,5 @@
 require "email_checker/email_checker"
+require 'meeting_utils/meeting_occurrence_utils'
 
 namespace :survey do
   desc "Check for incoming emails with surveys"
@@ -11,8 +12,13 @@ namespace :survey do
     EmailChecker.send_invites
   end
 
-  desc "Clear all"
-  task clear: :environment do
+  desc "Update_repetition MeetingOccurrences"
+  task update_repetitions: :environment do
+    MeetingOccurrenceUtils.update_repetitions
+  end
+
+  desc "Clean all"
+  task clean: :environment do
     SurveyAnswer.delete_all
     SurveyInvite.delete_all
     MeetingOccurrence.delete_all

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150217152230) do
+ActiveRecord::Schema.define(version: 20150223163436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,8 +54,9 @@ ActiveRecord::Schema.define(version: 20150217152230) do
     t.integer  "meeting_id"
     t.datetime "start_time"
     t.datetime "end_time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "occurred",   default: false
   end
 
   create_table "meeting_users", force: :cascade do |t|
@@ -81,6 +82,7 @@ ActiveRecord::Schema.define(version: 20150217152230) do
     t.string   "status"
     t.string   "uid"
     t.hstore   "repeat_rule"
+    t.boolean  "done",         default: false
   end
 
   add_index "meetings", ["uid"], name: "index_meetings_on_uid", unique: true, using: :btree
