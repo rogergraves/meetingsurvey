@@ -17,7 +17,7 @@
       - @questions.each_with_index do |question, i|
         = survey_tag(question[:question], question[:type], i + 1)
 
-      = submit_tag 'Send', id: "submit-button"
+      /= submit_tag 'Send', id: "submit-button"
 
 javascript:
   function set_why_color(label) {
@@ -52,6 +52,26 @@ javascript:
     }
   }
 
+  function set_active_question(change_to_block) {
+    var list = $('.question');
+    $.each(list, function(index, this_block) {
+      $(this_block).removeClass('on');
+    });
+
+    change_to_block.addClass('on');
+
+  }
+
+  function keyboard_answer(key) {
+    if($('.on .buttons').length == 1 && $('.on .why').is(':focus') == false) {
+      if(key == 'y') {
+        $($('.on .buttons input:radio')[0]).trigger('click');
+      } else if(key == 'n') {
+        $($('.on .buttons input:radio')[1]).trigger('click');
+      }
+    }
+  };
+
   $('.question input[type="radio"]').change(function () {
     var radio = $(this);
     $.each(radio.parents('.question').find('label'), function (i, v) {
@@ -59,6 +79,7 @@ javascript:
       if (label.children('input[type="radio"]:checked').length) {
         label.addClass('active');
         set_why_color(label);
+        $('.on .text-input-legend').hide();
       } else {
         label.removeClass('active');
       }
@@ -66,13 +87,26 @@ javascript:
   });
 
   $('.btn-continue').click(function(e){
-    var this_block = $(this).parent().parent();
-    var next_block = next_question_block();
-    this_block.hide();
-    next_block.show();
+    set_active_question(next_question_block());
+  });
+
+  $('.why').keydown(function (e) {
+    if (e.shiftKey && e.keyCode == 13) {
+      $('.on .btn-continue').trigger('click');
+    }
+  });
+
+  $(document).keyup(function (e) {
+    if (e.shiftKey && e.keyCode == 13) {
+      keyboard_answer('enter');
+    } else if (e.keyCode == 121 || e.keyCode == 89) {
+      keyboard_answer('y');
+    } else if (e.keyCode == 110 || e.keyCode == 78) {
+      keyboard_answer('n');
+    }
   });
 
   $(function () {
-    $('#question_1').show();
+    $('#question_1').addClass('on');
   });
 

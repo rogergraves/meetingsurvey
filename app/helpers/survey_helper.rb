@@ -67,9 +67,11 @@ module SurveyHelper
         <div class="buttons">
           <label class="btn btn-lg btn-yes">
             <input type="radio" name="#{answer_id}" id="#{answer_id}_yes" autocomplete="off"><i class='fa fa-thumbs-o-up'></i>
+            <div class="text-input-legend">y</div>
           </label>
           <label class="btn btn-lg btn-no">
             <input type="radio" name="#{answer_id}" id="#{answer_id}_no" autocomplete="off"><i class='fa fa-thumbs-o-down'></i>
+            <div class="text-input-legend">n</div>
           </label>
         </div>
         <textarea class="why" cols="30" rows="3" placeholder="Optional comments here"></textarea>
@@ -88,7 +90,7 @@ module SurveyHelper
     question_id = "question_#{uid}"
     answer_id = "answer_#{uid}"
     %Q(
-      <div id=#{question_id}>
+      <div id=#{question_id} class='question'>
         #{label_tag question_id, question}
         #{hidden_field_tag question_id, question}
         <br>
