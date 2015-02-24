@@ -12,6 +12,7 @@ namespace :survey do
     EmailChecker.send_invites
   end
 
+  # TODO: remove this
   desc "Update_repetition MeetingOccurrences"
   task update_repetitions: :environment do
     MeetingOccurrenceUtils.update_repetitions

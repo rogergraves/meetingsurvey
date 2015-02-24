@@ -3,6 +3,8 @@ class MeetingOccurrence < ActiveRecord::Base
   has_many :survey_invites, :dependent => :destroy
   has_many :survey_answers, :dependent => :destroy
 
+  validates_presence_of :meeting, :start_time, :end_time
+
   scope :fresh, -> { joins('LEFT JOIN survey_invites ON survey_invites.meeting_occurrence_id = meeting_occurrences.id').where('end_time > ? AND survey_invites.id ISNULL', Time.now) }
 
   def send_invites

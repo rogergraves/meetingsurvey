@@ -67,33 +67,14 @@ module EmailChecker
 
         meeting.save!
 
-        # Add participations
-        ## Organizer
-        meeting_occurrence = meeting.meeting_occurrences.first
         organizer_email = event.organizer.to_s.split(':').last
-        organizer_user = User.find_or_create_by!(email: organizer_email) do |user|
-          user.password = DEFAULT_PASSWORD
-        end
-        # SurveyInvite.find_or_create_by!(meeting_occurrence: meeting_occurrence, user: organizer_user)
-        MeetingUser.find_or_create_by!(meeting: meeting, user: organizer_user) do |u|
-          u.organizer = true
-        end
+        meeting.add_meeting_user(organizer_email, true)
 
-        ## Attendees
         attendee_emails = event.attendee.map(&:to)
         attendee_emails.delete(organizer_email)
-        attendee_users =  attendee_emails.map do |email|
-          User.find_or_create_by!(email: email) do |user|
-            user.password = DEFAULT_PASSWORD
-          end
-        end
-        SurveyInvite.where(meeting_occurrence: meeting_occurrence).where.not(user: attendee_users).delete_all
-        attendee_users.each do |user|
-          SurveyInvite.find_or_create_by!(meeting_occurrence: meeting_occurrence, user: user)
-          MeetingUser.find_or_create_by!(meeting: meeting, user: user) do |u|
-            u.organizer = false
-          end
-        end
+        meeting.refresh_meeting_users(attendee_emails)
+
+        meeting.generate_invites
 
         puts "summary: #{event.summary}"
         puts "description: #{event.description}"
