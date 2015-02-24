@@ -1,4 +1,8 @@
 .survey {
+  .welcome {
+    text-align: center;
+  }
+
   .form-questions {
     margin-top: 60px;
   }
@@ -11,7 +15,7 @@
     display: block;
   }
 
-  h3 {
+  h3, h4 {
     color: #8C8C8C;
   }
 
@@ -19,13 +23,17 @@
     display: none;
   }
 
-//  input[type="radio"]:checked + i {
-////    background-color: yellow;
-////    color: yellow;
-//  }
-
   .buttons {
-    margin-top: 60px;
+    margin-top: 30px;
+  }
+
+  .btn-lg {
+    padding: 18px 28px;
+    font-size: 22px;
+    line-height: normal;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
   }
 
   .btn-yes, .btn-no {
@@ -33,7 +41,7 @@
   }
 
   .btn-yes.active {
-    background-color: #06B009;
+    background-color: #5CB85C;
   }
 
   .btn-no.active {
@@ -57,27 +65,33 @@
     font-size: .6em;
     position: absolute;
     color: #999999;
-    margin-left: 22px;
-    margin-top: -6px;
+    margin-left: 34px;
+    margin-top: -2px;
   }
 
-  .why {
+  .why, .general-feedback {
     margin-top: 20px;
     width: 300px;
     border: 0;
     border-radius: 0;
     -webkit-border-radius: 0;
     resize: none;
-    font-size: 24px;
-    line-height: 30px;
+    font-size: 1.5em;
+    line-height: 1.5em;
     -webkit-box-shadow: none !important;
     -moz-box-shadow: none !important;
     box-shadow: none !important;
     outline: none;
+    border-left: 2px solid #cccccc;
+    color: #999999;
+    overflow: hidden;
+  }
+
+  .why {
     display: none;
     &.yes {
-      border-left: 2px solid #06B009 !important;
-      color: #06B009;
+      border-left: 2px solid #5CB85C !important;
+      color: #5CB85C;
     }
     &.no {
       border-left: 2px solid #ee9999 !important;
@@ -85,22 +99,14 @@
     }
   }
 
-  .btn-yes {
-    &.active {
-
-    }
-  }
-
-  .btn-no {
-    &.active {
-      .why {
-
-      }
-    }
-  }
-
   .hotkey {
     font-size: 11px;
     color: #8D8D8D;
+  }
+
+  .progress {
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }

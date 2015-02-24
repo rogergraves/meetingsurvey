@@ -4,12 +4,12 @@ class SurveyController < ApplicationController
 
   def show
     @questions = [
-        { question: "Was the meeting relevant to you?", type: :yes_or_no },
-        { question: "Was the purpose of the meeting clear?", type: :yes_or_no },
-        { question: "Did the meeting have the right people?", type: :yes_or_no },
-        { question: "Did the meeting have good communication?", type: :yes_or_no },
+        { question: "Was this meeting relevant to you?", type: :yes_or_no },
+        { question: "Was the purpose of this meeting clear?", type: :yes_or_no },
+        { question: "Did this meeting have the right people?", type: :yes_or_no },
+        { question: "Did this meeting hanve good communication?", type: :yes_or_no },
         { question: "Were there clear takeaways or action items?", type: :yes_or_no },
-        { question: "Please leave any other feedback", type: :text },
+        { question: "Any other feedback?", type: :text },
     ]
   end
 
@@ -42,7 +42,8 @@ class SurveyController < ApplicationController
   private
 
   def lookup_link_code
-    unless @meeting = Meeting.lookup(params[:link_code])
+    @survey_invite = SurveyInvite.find_by(link_code: params[:link_code])
+    unless @meeting = @survey_invite.try(:meeting_occurrence).try(:meeting)
       redirect_to home_index_path, :flash => { :alert => "Meeting not found" }
     end
   end
