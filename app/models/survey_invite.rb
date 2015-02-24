@@ -8,6 +8,12 @@ class SurveyInvite < ActiveRecord::Base
   validates_uniqueness_of :link_code
   validates_uniqueness_of :meeting_occurrence_id, :scope => :user_id
 
+  def send_email
+    # TODO: deliver_later
+    SurveyMailer.survey_invite(user, meeting_occurrence.meeting.organizer, self).deliver_now
+    update!(email_sent: Time.now)
+  end
+
   private
 
   def generate_link_code_if_missing

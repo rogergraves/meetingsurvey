@@ -6,8 +6,7 @@ class Meeting < ActiveRecord::Base
   has_many :meeting_occurrences, dependent: :destroy
   has_many :meeting_users, dependent: :destroy
 
-  # after_save :set_up_occurrence
-  after_save :check_meeting_done!
+  before_save :check_meeting_done
   after_save :update_or_create_nearest_occurrence!
 
   # TODO: delete this if needed
@@ -36,6 +35,23 @@ class Meeting < ActiveRecord::Base
     SurveyInvite.find_by(:link_code => link_code).meeting_occurrence.meeting
   end
 
+  def self.where_ready_for_occurrence
+    joins(:meeting_occurrences).where('meeting_occurrences.occurred = false AND meeting_occurrences.end_time > ?', Time.now)
+  end
+
+  def occur
+    occurrence = meeting_occurrences.where('occurred = false AND end_time < ?', Time.now).first
+    if occurrence
+      occurrence.update!(occurred: true)
+      occurrence.send_invites
+    end
+    # update_or_create_nearest_occurrence!
+    check_meeting_done
+    save
+
+    occurrence
+  end
+
   def update_or_create_nearest_occurrence!
     last_occurrence = meeting_occurrences.where(occurred: false).last
     next_occurrence = schedule.next_occurrence
@@ -47,17 +63,18 @@ class Meeting < ActiveRecord::Base
       MeetingOccurrence.create!(meeting: self,
                                 start_time: next_occurrence.start_time,
                                 end_time: next_occurrence.end_time,
-                                occurred: false
-      )
+                                occurred: false)
     end
   end
 
-  def check_meeting_done!
+  def check_meeting_done
     last_occurrence = schedule.last
     if last_occurrence.start_time < Time.now
-      update!(done: true)
+      self.done = true
+      # update!(done: true)
     else
-      update!(done: false)
+      self.done = false
+      # update!(done: false)
     end
   end
 

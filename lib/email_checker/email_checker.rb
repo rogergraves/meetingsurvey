@@ -113,17 +113,21 @@ module EmailChecker
   end
 
   def self.send_invites
-    occurrences = MeetingOccurrence.fresh
-    occurrences.each do |occurrence|
-      organizer_user = occurrence.meeting.meeting_users.where('organizer = true').take
-      meeting_users = occurrence.meeting.meeting_users.where('organizer = false')
-      meeting_users.each do |meeting_user|
-        survey_invite = SurveyInvite.create!(meeting_occurrence: occurrence, user: meeting_user.user, email_sent: Time.now)
-        # TODO: setup some background worker for email sending
-        # SurveyMailer.survey_invite(meeting_user.user, organizer_user, survey_invite).deliver_later
-        SurveyMailer.survey_invite(meeting_user.user, organizer_user.user, survey_invite).deliver_now
-        puts("--- EMAIL SENT TO #{meeting_user.user.email}")
-      end
+    meetings = Meeting.where_ready_for_occurrence
+    meetings.each do |meeting|
+      meeting.occur
     end
+    # occurrences = MeetingOccurrence.fresh
+    # occurrences.each do |occurrence|
+    #   organizer_user = occurrence.meeting.meeting_users.where('organizer = true').take
+    #   meeting_users = occurrence.meeting.meeting_users.where('organizer = false')
+    #   meeting_users.each do |meeting_user|
+    #     survey_invite = SurveyInvite.create!(meeting_occurrence: occurrence, user: meeting_user.user, email_sent: Time.now)
+    #     # TODO: setup some background worker for email sending
+    #     # SurveyMailer.survey_invite(meeting_user.user, organizer_user, survey_invite).deliver_later
+    #     SurveyMailer.survey_invite(meeting_user.user, organizer_user.user, survey_invite).deliver_now
+    #     puts("--- EMAIL SENT TO #{meeting_user.user.email}")
+    #   end
+    # end
   end
 end
