@@ -88,7 +88,75 @@ describe Meeting do
     end
   end
 
+  describe "Weekly repeating meeting" do
+    context "Ends after nth repetitions" do
+      it "has proper occurrences count" do
+        start_time = 2.days.since
+        end_time   = start_time + 2.hours
+        count      = 5
+        interval   = 2
+        by_day     = %w(SU MO TU WE TH FR SA)
+        @meeting = create(:weekly_repeating_meeting,
+                          start_time: start_time,
+                          end_time:   end_time,
+                          count:      count,
+                          interval:   interval,
+                          by_day:     by_day)
+        expect(@meeting.schedule.all_occurrences.count).to eq(count)
+      end
+    end
+  end
 
+  describe "Monthly repeating meeting" do
+    context "Ends after nth repetitions" do
+      it "has proper occurrences count by day of month" do
+        start_time   = 2.days.since
+        end_time     = start_time + 2.hours
+        count        = 5
+        interval     = 2
+        by_month_day = %w(12)
+        @meeting = create(:weekly_repeating_meeting,
+                          start_time:   start_time,
+                          end_time:     end_time,
+                          count:        count,
+                          interval:     interval,
+                          by_month_day: by_month_day)
+        expect(@meeting.schedule.all_occurrences.count).to eq(count)
+      end
+
+      it "has proper occurrences count by day of week" do
+        start_time   = 2.days.since
+        end_time     = start_time + 2.hours
+        count        = 5
+        interval     = 2
+        by_day       = %w(4TH)
+        @meeting = create(:weekly_repeating_meeting,
+                          start_time:   start_time,
+                          end_time:     end_time,
+                          count:        count,
+                          interval:     interval,
+                          by_day:       by_day)
+        expect(@meeting.schedule.all_occurrences.count).to eq(count)
+      end
+    end
+
+    describe "Yearly repeating meeting" do
+      context "Ends after nth repetitions" do
+        it "has proper occurrences count" do
+          start_time   = 2.days.since
+          end_time     = start_time + 2.hours
+          count        = 5
+          interval     = 2
+          @meeting = create(:yearly_repeating_meeting,
+                            start_time:   start_time,
+                            end_time:     end_time,
+                            count:        count,
+                            interval:     interval)
+          expect(@meeting.schedule.all_occurrences.count).to eq(count)
+        end
+      end
+    end
+  end
 
   context "Class methods" do
     it "#self.lookup" do

@@ -137,7 +137,7 @@ class Meeting < ActiveRecord::Base
     rule[:interval] = repeat_rule['interval']
     rule[:week_start] = 0 #TODO: add week start to repeat rule
     rule[:until] = repeat_rule['until']
-    rule[:count] = repeat_rule['count']
+    rule[:count] = repeat_rule['count'] ? repeat_rule['count'].to_i : nil
     rule[:validations] = {}
     if repeat_rule['by_day']
       rule[:validations][:day] = repeat_rule['by_day'].scan(/(SU|MO|TU|WE|TH|FR|SA)/).map { |day| days_of_week.index(day[0]) }
@@ -148,10 +148,12 @@ class Meeting < ActiveRecord::Base
     end
 
     if repeat_rule['frequency'] == 'MONTHLY'
-      _day_rule = repeat_rule['by_day'].scan(/(\d)(SU|MO|TU|WE|TH|FR|SA)/)[0]
-      _day = days_of_week.index(_day_rule[1])
-      _occs = _day_rule[0].to_i
-      rule[:validations][:day_of_week] = { _day => [_occs]}
+      if repeat_rule['by_day']
+        _day_rule = repeat_rule['by_day'].scan(/(\d)(SU|MO|TU|WE|TH|FR|SA)/)[0]
+        _day = days_of_week.index(_day_rule[1])
+        _occs = _day_rule[0].to_i
+        rule[:validations][:day_of_week] = { _day => [_occs]}
+      end
     end
 
     # Check endless meetings
