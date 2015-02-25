@@ -137,7 +137,7 @@ class Meeting < ActiveRecord::Base
     rule[:interval] = repeat_rule['interval']
     rule[:week_start] = 0 #TODO: add week start to repeat rule
     rule[:until] = repeat_rule['until']
-    rule[:count] = repeat_rule['count'].to_i
+    rule[:count] = repeat_rule['count']
     rule[:validations] = {}
     if repeat_rule['by_day']
       rule[:validations][:day] = repeat_rule['by_day'].scan(/(SU|MO|TU|WE|TH|FR|SA)/).map { |day| days_of_week.index(day[0]) }
@@ -152,6 +152,11 @@ class Meeting < ActiveRecord::Base
       _day = days_of_week.index(_day_rule[1])
       _occs = _day_rule[0].to_i
       rule[:validations][:day_of_week] = { _day => [_occs]}
+    end
+
+    # Check endless meetings
+    unless rule[:until] and rule[:count]
+      rule[:until] = 20.years.since
     end
 
     rule
