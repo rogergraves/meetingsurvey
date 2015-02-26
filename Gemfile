@@ -45,6 +45,7 @@ end
 group :test do
   gem 'shoulda-matchers', '~> 2.7.0', require: false  # Collection of testing matchers extracted from Shoulda http://thoughtbot.com/community
   gem 'rspec-rails', '~> 3.0.2'                       # https://www.relishapp.com/rspec/rspec-rails/docs/gettingstarted
+  gem 'email_spec', '~> 1.6.0'                        # Easily test email in RSpec, Cucumber, and MiniTest
   gem 'rspec-activemodel-mocks', '~> 1.0.1'           # RSpec test doubles for ActiveModel and ActiveRecord
   gem 'capybara', '~> 2.4.4'                          # Acceptance test framework for web applications http://jnicklas.github.com/capybara/
   gem 'database_cleaner', '~> 1.3.0'                  # database_cleaner is not required, but highly recommended
@@ -52,5 +53,6 @@ group :test do
   gem 'capybara-firebug', '~> 2.0.0'                  # Provides a dead-simple way to run scenarios with Firebug enabled under the selenium driver https://github.com/jfirebaugh/capybara-firebug
   gem 'cucumber-rails', '~> 1.4.0', require: false    # Cucumber Generator and Runtime for Rails
   gem 'turnip', '~> 1.2.4'                            # Provides the ability to define steps and run Gherkin files from with RSpec
+  gem 'timecop', '~> 0.7.3'                           # A gem providing "time travel" and "time freezing" capabilities
 end
 

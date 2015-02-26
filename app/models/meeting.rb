@@ -65,13 +65,13 @@ class Meeting < ActiveRecord::Base
 
   def occur
     occurrence = meeting_occurrences.where('occurred = false AND end_time < ?', Time.now).first
-    if occurrence
-      occurrence.update!(occurred: true)
-      occurrence.send_invites
-    end
+    return unless occurrence
+
+    occurrence.update!(occurred: true)
+    occurrence.send_invites
     # update_or_create_nearest_occurrence!
-    check_meeting_done
-    save!
+    # check_meeting_done
+    save
 
     occurrence
   end
