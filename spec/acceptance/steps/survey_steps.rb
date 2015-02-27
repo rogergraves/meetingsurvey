@@ -1,27 +1,19 @@
-require 'rails_helper'
+# require 'rails_helper'
+require 'spec_helper'
 
 module SurveySteps
 
-  step 'A survey invite exists with link code "1234567890"' do
-    meeting = create(:meeting)
-    meeting.add_meeting_user('organizer@example.com', true)
-    meeting.add_meeting_user('oparticipant@example.com')
-    meeting.generate_invites
-    invite =meeting.last_occurrence.survey_invites.first
+  step "A survey invite exists with link code :link_code" do |link_code|
+    invite = FactoryGirl.create(:survey_invite)
     invite.update(link_code: '1234567890')
-    expect(SurveyInvite.find_by(link_code: '1234567890').present?).to be_truthy
   end
 
-  step 'I navigate to "/survey/1234567890/refuse_attendance"' do
-    visit '/survey/1234567890/refuse_attendance'
+  step "I navigate to :path" do |path|
+    visit path
   end
 
-  step 'I navigate to "/survey/1234567890/confirm_attendance"' do
-    visit '/survey/1234567890/confirm_attendance'
-  end
-
-  step 'I should see on the page "Thank you!"' do
-    expect(page).to have_content('Thank you!')
+  step "I should see on the page :message" do |message|
+    expect(page).to have_content(message)
   end
 
   step 'I should see on the page "Was this meeting relevant to you?"' do
@@ -54,6 +46,7 @@ module SurveySteps
 
   # TODO: this fails
   step 'I click the link "answer_1_next"' do
+
     click_link 'answer_1_next', visible: false
   end
 
