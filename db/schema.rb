@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150223163436) do
+ActiveRecord::Schema.define(version: 20150227042546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,7 +57,10 @@ ActiveRecord::Schema.define(version: 20150223163436) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.boolean  "occurred",   default: false
+    t.string   "link_code"
   end
+
+  add_index "meeting_occurrences", ["link_code"], name: "index_meeting_occurrences_on_link_code", using: :btree
 
   create_table "meeting_users", force: :cascade do |t|
     t.integer  "user_id"

@@ -4,6 +4,9 @@ class MeetingOccurrence < ActiveRecord::Base
   has_many :survey_answers, :dependent => :destroy
 
   validates_presence_of :meeting, :start_time, :end_time
+  validates_uniqueness_of :link_code
+
+  before_create :generate_link_code
 
   scope :fresh, -> { joins('LEFT JOIN survey_invites ON survey_invites.meeting_occurrence_id = meeting_occurrences.id').where('end_time > ? AND survey_invites.id ISNULL', Time.now) }
 
@@ -15,4 +18,13 @@ class MeetingOccurrence < ActiveRecord::Base
       survey_invite.send_email
     end
   end
+
+  private
+
+    def generate_link_code
+      loop do
+        self.link_code = SecureRandom.hex(10)
+        break unless MeetingOccurrence.exists?(link_code: link_code)
+      end
+    end
 end
