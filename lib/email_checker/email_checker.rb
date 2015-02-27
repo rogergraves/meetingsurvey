@@ -43,27 +43,27 @@ module EmailChecker
         meeting.created_time  = event.created.to_s
         meeting.location      = event.location.to_s
         meeting.status        = event.status.to_s
-
-        if event.rrule.first
-          rule = {}
-          event_rule = event.rrule.first
-          rule[:frequency]        = event_rule.frequency
-          rule[:until]            = event_rule.until
-          rule[:count]            = event_rule.count
-          rule[:interval]         = event_rule.interval
-          rule[:by_second]        = event_rule.by_second
-          rule[:by_minute]        = event_rule.by_minute
-          rule[:by_hour]          = event_rule.by_hour
-          rule[:by_day]           = event_rule.by_day
-          rule[:by_month_day]     = event_rule.by_month_day
-          rule[:by_year_day]      = event_rule.by_year_day
-          rule[:by_week_number]   = event_rule.by_week_number
-          rule[:by_month]         = event_rule.by_month
-          rule[:by_set_position]  = event_rule.by_set_position
-          rule[:week_start]       = event_rule.week_start
-
-          meeting.repeat_rule = rule
-        end
+        meeting.repeat_rule   = event.rrule.first.to_h
+        # if event.rrule.first
+        #   rule = {}
+        #   event_rule = event.rrule.first
+        #   rule[:frequency]        = event_rule.frequency
+        #   rule[:until]            = event_rule.until
+        #   rule[:count]            = event_rule.count
+        #   rule[:interval]         = event_rule.interval
+        #   rule[:by_second]        = event_rule.by_second
+        #   rule[:by_minute]        = event_rule.by_minute
+        #   rule[:by_hour]          = event_rule.by_hour
+        #   rule[:by_day]           = event_rule.by_day
+        #   rule[:by_month_day]     = event_rule.by_month_day
+        #   rule[:by_year_day]      = event_rule.by_year_day
+        #   rule[:by_week_number]   = event_rule.by_week_number
+        #   rule[:by_month]         = event_rule.by_month
+        #   rule[:by_set_position]  = event_rule.by_set_position
+        #   rule[:week_start]       = event_rule.week_start
+        #
+        #   meeting.repeat_rule = rule
+        # end
 
         meeting.save!
 

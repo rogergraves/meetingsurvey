@@ -1,13 +1,15 @@
 require 'rails_helper'
 
 describe Meeting do
-  let(:meeting) { FactoryGirl.create(:meeting) }
 
   it 'Factory works' do
+    meeting = create(:meeting)
     expect(meeting.valid?).to eq(true)
   end
 
   context 'Relationships' do
+    let(:meeting) { create(:meeting) }
+
     it { should have_many(:meeting_occurrences) }
     it { should have_many(:meeting_users) }
     it 'does not orphan meeting_occurrences when meeting is deleted' do
@@ -23,6 +25,23 @@ describe Meeting do
       meeting.destroy
       expect(MeetingUser.exists?(id: meeting_user.id)).to be_falsey
     end
+  end
+
+  context 'Behavior' do
+    it 'sends an invite email if new meeting done within the last 2 weeks' do
+      ActionMailer::Base.delivery_method = :test
+      ActionMailer::Base.perform_deliveries = true
+      ActionMailer::Base.deliveries = []
+
+      overdue_meeting = create(:meeting, start_time: 2.weeks.ago, end_time: 2.weeks.ago - 1.hour)
+      overdue_meeting.add_meeting_user('organizer@example.com', true)
+      email = 'participant@example.com'
+      overdue_meeting.add_meeting_user(email)
+      overdue_meeting.occur
+      expect(overdue_meeting.meeting_occurrences.count).to eq(1)
+      expect(open_last_email.to).to include(email)
+    end
+
   end
 
   describe "Meeting without repetitions" do
@@ -159,17 +178,33 @@ describe Meeting do
   end
 
   context "Class methods" do
+    let(:meeting) { FactoryGirl.create(:meeting) }
+
     it "#self.lookup" do
       survey_invite = FactoryGirl.create(:survey_invite, meeting_occurrence: meeting.meeting_occurrences.take)
       expect(Meeting.lookup(survey_invite.link_code)).to eq(meeting)
     end
 
     it "#self.where_ready_for_occurrence" do
-      create(:daily_repeating_meeting, start_time: 1.day.since, end_time: 1.day.since + 1.hour)
-      # create(:daily_repeating_meeting, start_time: 2.day.since, end_time: 2.day.since + 1.hour)
-      # create(:daily_repeating_meeting, start_time: 2.day.ago, end_time: 2.day.ago + 1.hour)
-      # puts "---- #{create(:daily_repeating_meeting)}"
-      # puts "---- #{create(:daily_repeating_meeting).repeat_rule[:count]}"
+      meeting_one_month_old    = create(:meeting, start_time: 1.month.ago, end_time: 1.month.ago - 2.hour, uid: '1')
+      meeting_three_week_old   = create(:meeting, start_time: 3.weeks.ago, end_time: 3.weeks.ago - 2.hour, uid: '2')
+      meeting_two_week_old     = create(:meeting, start_time: 2.weeks.ago, end_time: 2.weeks.ago + 1.hour, uid: '3')
+      meeting_two_days_old     = create(:meeting, start_time: 2.days.ago, end_time: 2.days.ago - 1.hour, uid: '4')
+      meeting_four_hours_old   = create(:meeting, start_time: 4.hours.ago, end_time: 4.hours.ago - 2.hour, uid: '5')
+      meeting_five_hours_later = create(:meeting, start_time: 5.hours.since, end_time: 5.hours.since + 2.hour, uid: '6')
+      meeting_two_days_later   = create(:meeting, start_time: 2.days.since, end_time: 2.days.since + 2.hour, uid: '7')
+
+      expect(Meeting.where_ready_for_occurrence.count).to eq(3)
+
+      expect(Meeting.where_ready_for_occurrence).to include(meeting_two_week_old,
+                                                            meeting_two_days_old,
+                                                            meeting_four_hours_old)
+
+      expect(Meeting.where_ready_for_occurrence).to_not include(meeting_one_month_old,
+                                                                meeting_three_week_old,
+                                                                meeting_five_hours_later,
+                                                                meeting_two_days_later)
+
     end
 
     it "#organizer" do

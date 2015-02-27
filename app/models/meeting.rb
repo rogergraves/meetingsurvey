@@ -11,24 +11,6 @@ class Meeting < ActiveRecord::Base
 
   validates_presence_of :uid, :start_time, :end_time
 
-  # TODO: delete this if needed
-  scope :past_and_repeating, -> do
-    # WHERE 'meetings'.repeat_rule -> 'frequency' = :frequency
-    # TODO: left join
-    find_by_sql(
-        [%Q(SELECT DISTINCT ON("meetings"."id") "meetings".*  FROM "meetings"
-            INNER JOIN (SELECT "meeting_occurrences"."id", "meeting_occurrences"."meeting_id"
-                        FROM "meeting_occurrences"
-                        WHERE "meeting_occurrences"."start_time" > ?
-                        ORDER BY "start_time" ASC
-                       ) AS "mo" ON "mo"."meeting_id" = "meetings"."id"
-          WHERE defined("meetings"."repeat_rule", 'frequency')
-          ORDER BY "meetings"."id";
-        ),
-         Time.now]
-    )
-  end
-
   # return type can be User or MeetingUser
   def organizer(type=:user)
     if type == :user
@@ -60,11 +42,12 @@ class Meeting < ActiveRecord::Base
   end
 
   def self.where_ready_for_occurrence
-    joins(:meeting_occurrences).where('meeting_occurrences.occurred = false AND meeting_occurrences.end_time > ?', Time.now)
+    # joins(:meeting_occurrences).where('meeting_occurrences.occurred = false AND meeting_occurrences.end_time > ?', Time.now)
+    joins(:meeting_occurrences).where(meeting_occurrences: {occurred: false, end_time: [2.weeks.ago..Time.now]})
   end
 
   def occur
-    occurrence = meeting_occurrences.where('occurred = false AND end_time < ?', Time.now).first
+    occurrence = meeting_occurrences.where('occurred = false').first
     return unless occurrence
 
     occurrence.update!(occurred: true)
@@ -84,17 +67,14 @@ class Meeting < ActiveRecord::Base
         last_occurrence.update!(start_time: next_occurrence.start_time,
                                 end_time: next_occurrence.end_time)
       else
-        if next_occurrence
-          MeetingOccurrence.create!(meeting: self,
-                                    start_time: next_occurrence.start_time,
-                                    end_time: next_occurrence.end_time,
-                                    occurred: false)
-        end
+        generate_new_occurrence(next_occurrence.start_time, next_occurrence.end_time)
       end
     else
-      # TODO: What todo if no occurrences will occur?
-      #       Notify user about this by email
-      last_occurrence.destroy if last_occurrence
+      # Meeting just created and has no future occurrences
+      if meeting_occurrences.empty?
+        last_occurred = schedule.last
+        generate_new_occurrence(last_occurred.start_time, last_occurred.end_time)
+      end
     end
   end
 
@@ -107,6 +87,7 @@ class Meeting < ActiveRecord::Base
     else
       self.done = false
     end
+    true
   end
 
   def schedule
@@ -126,25 +107,25 @@ class Meeting < ActiveRecord::Base
 
     rule = {}
 
-    rule[:rule_type] = case repeat_rule['frequency']
-                         when 'DAILY' then IceCube::DailyRule.to_s
-                         when 'WEEKLY' then IceCube::WeeklyRule.to_s
-                         when 'MONTHLY' then IceCube::MonthlyRule.to_s
-                         when 'YEARLY' then IceCube::YearlyRule.to_s
-                         else return nil
-                       end
+    rule['rule_type'] = case repeat_rule['frequency']
+                          when 'DAILY' then IceCube::DailyRule.to_s
+                          when 'WEEKLY' then IceCube::WeeklyRule.to_s
+                          when 'MONTHLY' then IceCube::MonthlyRule.to_s
+                          when 'YEARLY' then IceCube::YearlyRule.to_s
+                          else return nil
+                        end
 
-    rule[:interval] = repeat_rule['interval']
-    rule[:week_start] = 0 #TODO: add week start to repeat rule
-    rule[:until] = repeat_rule['until']
-    rule[:count] = repeat_rule['count'] ? repeat_rule['count'].to_i : nil
-    rule[:validations] = {}
+    rule['interval'] = repeat_rule['interval']
+    rule['week_start'] = repeat_rule['interval']
+    rule['until'] = repeat_rule['until']
+    rule['count'] = repeat_rule['count'] ? repeat_rule['count'].to_i : nil
+    rule['validations'] = {}
     if repeat_rule['by_day']
-      rule[:validations][:day] = repeat_rule['by_day'].scan(/(SU|MO|TU|WE|TH|FR|SA)/).map { |day| days_of_week.index(day[0]) }
+      rule['validations']['day'] = repeat_rule['by_day'].scan(/(SU|MO|TU|WE|TH|FR|SA)/).map { |day| days_of_week.index(day[0]) }
     end
 
     if repeat_rule['by_month_day']
-      rule[:validations][:day_of_month] = repeat_rule['by_month_day'][/\d{1,2}/].to_i
+      rule['validations']['day_of_month'] = repeat_rule['by_month_day'][/\d{1,2}/].to_i
     end
 
     if repeat_rule['frequency'] == 'MONTHLY'
@@ -152,13 +133,13 @@ class Meeting < ActiveRecord::Base
         _day_rule = repeat_rule['by_day'].scan(/(\d)(SU|MO|TU|WE|TH|FR|SA)/)[0]
         _day = days_of_week.index(_day_rule[1])
         _occs = _day_rule[0].to_i
-        rule[:validations][:day_of_week] = { _day => [_occs]}
+        rule['validations']['day_of_week'] = { _day => [_occs]}
       end
     end
 
     # Check endless meetings
-    unless rule[:until] and rule[:count]
-      rule[:until] = 20.years.since
+    if rule['until'].nil? and rule['count'].nil?
+      rule['until'] = 20.years.since
     end
 
     rule
@@ -171,12 +152,10 @@ class Meeting < ActiveRecord::Base
   end
 
   def add_meeting_user(email, organizer=false)
-    if last_occurrence
-      user = User.find_or_create_default!(email)
+    user = User.find_or_create_default!(email)
 
-      MeetingUser.find_or_create_by!(meeting: self, user: user) do |u|
-        u.organizer = organizer
-      end
+    MeetingUser.find_or_create_by!(meeting: self, user: user) do |u|
+      u.organizer = organizer
     end
   end
 
@@ -189,4 +168,13 @@ class Meeting < ActiveRecord::Base
       end
     end
   end
+
+  private
+
+    def generate_new_occurrence(start_time, end_time)
+      MeetingOccurrence.create!(meeting: self,
+                                start_time: start_time,
+                                end_time: end_time,
+                                occurred: false)
+    end
 end
