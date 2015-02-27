@@ -1,6 +1,5 @@
 class SurveyController < ApplicationController
-  before_action :lookup_link_code, only: [:show, :create]
-  before_action :set_survey_invite, only: [:confirm_attendance, :refuse_attendance]
+  before_action :lookup_link_code
 
   def show
     @questions = [
@@ -48,7 +47,4 @@ class SurveyController < ApplicationController
     end
   end
 
-  def set_survey_invite
-    @survey_invite = SurveyInvite.find_by(link_code: params[:link_code])
-  end
 end
