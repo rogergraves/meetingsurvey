@@ -17,9 +17,9 @@ module SurveyHelper
             <div class="text-input-legend">n</div>
           </label>
         </div>
-        <textarea class="why" cols="30" rows="1" placeholder="Have some comments?"></textarea>
+        <textarea class="why" cols="30" rows="1" placeholder="Have some comments?" id="#{answer_id}_why"></textarea>
         <div class="text-center button-block">
-          <a href="#" role="button" class="btn btn-default btn-lg btn-continue">
+          <a href="#" role="button" class="btn btn-default btn-lg btn-continue" id="#{answer_id}_next">
             <i class='fa fa-check'></i> Next
           </a>
           <br>
