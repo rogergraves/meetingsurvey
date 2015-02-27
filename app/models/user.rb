@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 
   has_many :survey_invites, :dependent => :destroy
   has_many :survey_answers, :dependent => :destroy
-  has_many :meeting_users
+  has_many :meeting_users, :dependent => :destroy
 
   def self.find_or_create_default!(email)
     find_or_create_by!(email: email) do |user|
