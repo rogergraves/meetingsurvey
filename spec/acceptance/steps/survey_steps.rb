@@ -38,13 +38,27 @@ module SurveySteps
     expect(invite.confirmed_attendance).to be_truthy
   end
 
+  step 'I navigate to "/survey/1234567890"' do
+    visit '/survey/1234567890'
+  end
+
+  step 'I click on radio button "answer_1_yes"' do
+    # choose 'answer_1_yes', visible: false
+    page.execute_script("document.getElementById('answer_1_yes').checked = true")
+  end
+
+  step 'I enter into "answer_1_why" text "Because"' do
+    # fill_in 'answer_1_why', with: 'Because'
+    page.execute_script('document.getElementById("answer_1_why").value = "Because"')
+  end
+
+  # TODO: this fails
+  step 'I click the link "answer_1_next"' do
+    click_link 'answer_1_next', visible: false
+  end
 
 
-
-
-
-
-
+  ####################################### Old code
   step 'Setup data' do
     meeting = create(:meeting)
     user = create(:user)

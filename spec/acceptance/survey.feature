@@ -1,27 +1,27 @@
 Feature: Survey testing
 
-#  @selenium
-#  Scenario: User indicates that they didn't attend a meeting
-#    Given A survey invite exists with link code "1234567890"
-#    And I navigate to "/survey/1234567890/refuse_attendance"
-#    Then I should see on the page "Thank you!"
-#    And Field "confirmed_attendance" for survey invite with link code "1234567890" should be "false"
+  @selenium
+  Scenario: User indicates that they didn't attend a meeting
+    Given A survey invite exists with link code "1234567890"
+    And I navigate to "/survey/1234567890/refuse_attendance"
+    Then I should see on the page "Thank you!"
+    And Field "confirmed_attendance" for survey invite with link code "1234567890" should be "false"
 
-#  @selenium
-#  Scenario: User indicates that they attended a meeting
-#    Given A survey invite exists with link code "1234567890"
-#    And I navigate to "/survey/1234567890/confirm_attendance"
-#    Then I should see on the page "Was this meeting relevant to you?"
-#    And Field "confirmed_attendance" for survey invite with link code "1234567890" should be "true"
+  @selenium
+  Scenario: User indicates that they attended a meeting
+    Given A survey invite exists with link code "1234567890"
+    And I navigate to "/survey/1234567890/confirm_attendance"
+    Then I should see on the page "Was this meeting relevant to you?"
+    And Field "confirmed_attendance" for survey invite with link code "1234567890" should be "true"
 
-#  @selenium
-#  Scenario: User answers a survey
-#    Given A survey invite exists with link code "1234567890"
-#    And I navigate to "/survey/1234567890"
-#    Then I should see on the page "Was this meeting relevant to you?"
-#    When I click on radio button "answer_1_yes"
-#    And I enter into "answer_1_why" text "Because"
-#    And I click the link "answer_1_next"
+  @selenium
+  Scenario: User answers a survey
+    Given A survey invite exists with link code "1234567890"
+    And I navigate to "/survey/1234567890"
+    Then I should see on the page "Was this meeting relevant to you?"
+    When I click on radio button "answer_1_yes"
+    And I enter into "answer_1_why" text "Because"
+    And I click the link "answer_1_next"
 #    And I click on radio button "answer_2_no"
 #    And I click the link "answer_2_next"
 #    And I click on radio button "answer_3_yes"
