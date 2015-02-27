@@ -8,21 +8,29 @@ describe User do
   end
 
   context 'Relationships' do
-    it { should have_many(:meeting_participations) }
-    it { should have_many(:meeting_answers) }
+    it { should have_many(:survey_invites) }
+    it { should have_many(:survey_answers) }
+    it { should have_many(:meeting_users) }
 
-    it 'does not orphan meeting_participations when users are deleted' do
-      meeting_participation = FactoryGirl.create(:meeting_participation, :user => user)
-      expect(SurveyInvite.exists?(id: meeting_participation.id)).to be_truthy
+    it 'does not orphan survey_invites when users are deleted' do
+      survey_invite = FactoryGirl.create(:survey_invite, :user => user)
+      expect(SurveyInvite.exists?(survey_invite.id)).to be_truthy
       user.destroy
-      expect(SurveyInvite.exists?(id: meeting_participation.id)).to be_falsey
+      expect(SurveyInvite.exists?(survey_invite.id)).to be_falsey
     end
 
-    it 'does not orphan meeting_answers when users are deleted' do
-      meeting_answer = FactoryGirl.create(:meeting_answer, :user => user)
-      expect(SurveyAnswer.exists?(id: meeting_answer.id)).to be_truthy
+    it 'does not orphan survey_answers when users are deleted' do
+      survey_answer = FactoryGirl.create(:survey_answer, :user => user)
+      expect(SurveyAnswer.exists?(survey_answer.id)).to be_truthy
       user.destroy
-      expect(SurveyAnswer.exists?(id: meeting_answer.id)).to be_falsey
+      expect(SurveyAnswer.exists?(survey_answer.id)).to be_falsey
+    end
+
+    it 'does not orphan meeting_users when users are deleted' do
+      meeting_user = FactoryGirl.create(:meeting_user, :user => user)
+      expect(MeetingUser.exists?(meeting_user.id)).to be_truthy
+      user.destroy
+      expect(MeetingUser.exists?(meeting_user.id)).to be_falsey
     end
   end
 end
