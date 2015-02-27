@@ -1,7 +1,21 @@
 Feature: Survey testing
 
   @selenium
-  Scenario: User can answer a survey data
+  Scenario: User indicates that they didn't attend a meeting
+    Given A survey invite exists with link code "1234567890"
+    And I navigate to "/survey/1234567890/refuse_attendance"
+    Then I should see on the page "Thank you!"
+    And Field "confirmed_attendance" for survey invite with link code "1234567890" should be "false"
+
+  @selenium
+  Scenario: User indicates that they attended a meeting
+    Given A survey invite exists with link code "1234567890"
+    And I navigate to "/survey/1234567890/confirm_attendance"
+    Then I should see on the page "Was this meeting relevant to you?"
+    And Field "confirmed_attendance" for survey invite with link code "1234567890" should be "true"
+
+  @selenium
+  Scenario: User answers a survey
     Given A survey invite exists with link code "1234567890"
     And I navigate to "/survey/1234567890"
     Then I should see on the page "Was this meeting relevant to you?"
