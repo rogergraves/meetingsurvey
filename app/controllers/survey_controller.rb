@@ -13,10 +13,6 @@ class SurveyController < ApplicationController
   end
 
   def create
-    puts "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    puts "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    puts "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    puts "#{params}"
     # TODO: add error catching
     invite = SurveyInvite.find_by(link_code: params[:link_code])
 

@@ -50,6 +50,7 @@ group :test do
   gem 'capybara', '~> 2.4.4'                          # Acceptance test framework for web applications http://jnicklas.github.com/capybara/
   gem 'database_cleaner', '~> 1.3.0'                  # database_cleaner is not required, but highly recommended
   gem 'selenium-webdriver', '~> 2.43.0'               # https://code.google.com/p/selenium/
+  gem 'chromedriver-helper'                           # Easy installation and use of chromedriver, the Chromium project's selenium webdriver adapter.
   gem 'capybara-firebug', '~> 2.0.0'                  # Provides a dead-simple way to run scenarios with Firebug enabled under the selenium driver https://github.com/jfirebaugh/capybara-firebug
   gem 'cucumber-rails', '~> 1.4.0', require: false    # Cucumber Generator and Runtime for Rails
   gem 'turnip', '~> 1.2.4'                            # Provides the ability to define steps and run Gherkin files from with RSpec

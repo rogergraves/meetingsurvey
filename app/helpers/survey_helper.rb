@@ -12,7 +12,7 @@ module SurveyHelper
             <input type="radio" name="#{answer_id}" id="#{answer_id}_yes" value="yes" autocomplete="off"><i class='fa fa-thumbs-o-up'></i>
             <div class="text-input-legend">y</div>
           </label>
-          <label class="btn btn-lg btn-no for="#{answer_id}_no">
+          <label class="btn btn-lg btn-no" for="#{answer_id}_no">
             <input type="radio" name="#{answer_id}" id="#{answer_id}_no" value="no" autocomplete="off"><i class='fa fa-thumbs-o-down'></i>
             <div class="text-input-legend">n</div>
           </label>
