@@ -13,6 +13,10 @@ class SurveyController < ApplicationController
   end
 
   def create
+    puts "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    puts "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    puts "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    puts "#{params}"
     # TODO: add error catching
     invite = SurveyInvite.find_by(link_code: params[:link_code])
 
@@ -20,7 +24,8 @@ class SurveyController < ApplicationController
       SurveyAnswer.create( user_id: invite.user_id,
                             meeting_occurrence_id: invite.meeting_occurrence.id,
                             question: params["question_#{i}"],
-                            answer: params["answer_#{i}"]
+                            answer: params["answer_#{i}"],
+                            why: params["answer_#{i}_why"]
       )
     end
 

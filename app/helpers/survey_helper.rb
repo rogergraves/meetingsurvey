@@ -9,15 +9,15 @@ module SurveyHelper
         #{hidden_field_tag question_id, question}
         <div class="buttons">
           <label class="btn btn-lg btn-yes" for="#{answer_id}_yes">
-            <input type="radio" name="#{answer_id}" id="#{answer_id}_yes" autocomplete="off"><i class='fa fa-thumbs-o-up'></i>
+            <input type="radio" name="#{answer_id}" id="#{answer_id}_yes" value="yes" autocomplete="off"><i class='fa fa-thumbs-o-up'></i>
             <div class="text-input-legend">y</div>
           </label>
           <label class="btn btn-lg btn-no for="#{answer_id}_no">
-            <input type="radio" name="#{answer_id}" id="#{answer_id}_no" autocomplete="off"><i class='fa fa-thumbs-o-down'></i>
+            <input type="radio" name="#{answer_id}" id="#{answer_id}_no" value="no" autocomplete="off"><i class='fa fa-thumbs-o-down'></i>
             <div class="text-input-legend">n</div>
           </label>
         </div>
-        <textarea class="why" cols="30" rows="1" placeholder="Have some comments?" id="#{answer_id}_why"></textarea>
+        <textarea class="why" cols="30" rows="1" placeholder="Have some comments?" id="#{answer_id}_why" name="#{answer_id}_why"></textarea>
         <div class="text-center button-block">
           <a href="#" role="button" class="btn btn-default btn-lg btn-continue" id="#{answer_id}_next">
             <i class='fa fa-check'></i> Next
