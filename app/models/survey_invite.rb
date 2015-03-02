@@ -1,4 +1,3 @@
-# MeetingParticipation
 class SurveyInvite < ActiveRecord::Base
   belongs_to :user
   belongs_to :meeting_occurrence

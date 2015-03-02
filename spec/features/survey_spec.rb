@@ -48,7 +48,7 @@ feature "Survey interaction" do
     when_i_click_radio_button 'answer_5_yes'
     and_i_click_nex_answer 'answer_5_next'
 
-    # Question 5
+    # Question 6
     and_i_answer_textual 'answer_6', 'Cool meeting!'
     and_i_click_finish
 
