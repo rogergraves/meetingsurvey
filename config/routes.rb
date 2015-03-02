@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post '/survey', :to => 'survey#create'
   get '/survey/:link_code/confirm_attendance', to: 'survey#confirm_attendance', as: 'confirm_attendance'
   get '/survey/:link_code/refuse_attendance', to: 'survey#refuse_attendance', as: 'refuse_attendance'
+  resources :report, only: :show
 
   devise_for :users
 
