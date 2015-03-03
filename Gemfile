@@ -55,5 +55,6 @@ group :test do
   gem 'cucumber-rails', '~> 1.4.0', require: false    # Cucumber Generator and Runtime for Rails
   gem 'turnip', '~> 1.2.4'                            # Provides the ability to define steps and run Gherkin files from with RSpec
   gem 'timecop', '~> 0.7.3'                           # A gem providing "time travel" and "time freezing" capabilities
+  gem "codeclimate-test-reporter"                     # Shows test coverage in CodeClimate from Semaphoreapp.com
 end
 

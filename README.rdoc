@@ -8,7 +8,7 @@ MeetingPossum is built on:
  *Code complexity and security monitoring by CodeClimate
 
 {<img src="https://codeclimate.com/repos/54f4060a69568022d1003bba/badges/360719b07474f9bd95fc/gpa.svg" />}[https://codeclimate.com/repos/54f4060a69568022d1003bba/feed]
-
+[![Build Status](https://semaphoreapp.com/api/v1/projects/70429fce-e3f5-4ba6-a1ff-24035823370d/363976/badge.png)](https://semaphoreapp.com/rogergraves/meetingsurvey)
 == New Development Machine Install (Mac)
 
 1. Install the latest version of XCode
