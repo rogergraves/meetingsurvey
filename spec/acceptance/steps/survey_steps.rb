@@ -6,7 +6,7 @@ module SurveySteps
     meeting = create(:meeting)
     meeting.add_meeting_user('organizer@example.com', true)
     participant = meeting.add_meeting_user('participant@example.com').user
-    meeting.generate_invites
+    # meeting.generate_invites
     # survey_invite = meeting.last_occurrence.survey_invites.where(user: participant).take
     survey_invite = SurveyInvite.find_by(user: participant)
     survey_invite.update(link_code: link_code)
@@ -61,6 +61,29 @@ module SurveySteps
   step 'The user for the invite with link code "1234567890" should have a survey answer with question "Any other feedback?" with why "Cool meeting!"' do
     answer = get_answer('1234567890', { question: 'Any other feedback?',
                                         answer:   'Cool meeting!'
+                                    })
+    expect(answer.present?).to be_truthy
+  end
+
+  ##################
+  step 'The user for the invite with link code "1234567890" should have a survey answer with question "Was this meeting relevant to you?" answer "no" and no why' do
+    answer = get_answer('1234567890', { question: 'Was this meeting relevant to you?',
+                                        answer:   'no'
+                                    })
+    expect(answer.present?).to be_truthy
+  end
+
+  step 'The user for the invite with link code "1234567890" should have a survey answer with question "Did this meeting have good communication?" answer "yes" and why "Hello"' do
+    answer = get_answer('1234567890', { question: 'Did this meeting have good communication?',
+                                        answer:   'no',
+                                        why:      'Hello'
+                                    })
+    expect(answer.present?).to be_truthy
+  end
+
+  step 'The user for the invite with link code "1234567890" should have a survey answer with question "Any other feedback?" with why "Super meeting!"' do
+    answer = get_answer('1234567890', { question: 'Any other feedback?',
+                                        answer:   'Super meeting!'
                                     })
     expect(answer.present?).to be_truthy
   end

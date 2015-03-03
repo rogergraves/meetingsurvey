@@ -13,12 +13,12 @@ class SurveyController < ApplicationController
     1.upto(6) do |i|
       negative_responses += 1 if params["answer_#{i}"].to_s.downcase == 'no'
 
-      SurveyAnswer.create( user_id: invite.user_id,
-                            meeting_occurrence_id: invite.meeting_occurrence.id,
-                            question: params["question_#{i}"],
-                            answer: params["answer_#{i}"],
-                            why: params["answer_#{i}_why"]
-      )
+      answer = SurveyAnswer.find_or_initialize_by(user_id: invite.user_id,
+                                                  meeting_occurrence: invite.meeting_occurrence,
+                                                  question: params["question_#{i}"])
+      answer.answer = params["answer_#{i}"]
+      answer.why    = params["answer_#{i}_why"]
+      answer.save
     end
     @image = (negative_responses > 1 ? 'angry_possum.jpg' : 'possum_family.jpg')
   end
