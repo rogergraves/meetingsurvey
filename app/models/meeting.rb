@@ -154,20 +154,27 @@ class Meeting < ActiveRecord::Base
   def add_meeting_user(email, organizer=false)
     user = User.find_or_create_default!(email)
 
-    MeetingUser.find_or_create_by!(meeting: self, user: user) do |u|
+    meeting_user = MeetingUser.find_or_create_by!(meeting: self, user: user) do |u|
       u.organizer = organizer
     end
+
+    unless organizer
+      SurveyInvite.find_or_create_by!(meeting_occurrence: last_occurrence, user: user)
+    end
+
+    meeting_user
   end
 
   # Generates SurveyInvites for all meeting users except organizer
-  def generate_invites
-    occurrence = last_occurrence
-    if occurrence
-      participants.each do |user|
-        SurveyInvite.find_or_create_by!(meeting_occurrence: occurrence, user: user)
-      end
-    end
-  end
+  # TODO: Refactor this to add_meeting_user
+  # def generate_invites
+  #   occurrence = last_occurrence
+  #   if occurrence
+  #     participants.each do |user|
+  #       SurveyInvite.find_or_create_by!(meeting_occurrence: occurrence, user: user)
+  #     end
+  #   end
+  # end
 
   private
 

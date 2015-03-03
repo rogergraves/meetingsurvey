@@ -1,1 +1,8 @@
-h3 Welcome! So far 6 out of 7 meeting participants have responded.
+p Welcome! So far #{@meeting_occurrence.surveyed_users.count} out of #{@all_participants.count} meeting participants have responded.
+
+p = refused_users(@meeting_occurrence.refused_users)
+p = missed_users(@meeting_occurrence.missed_users)
+
+h3 Survey Results for “#{@meeting.summary}” on #{@meeting_occurrence.start_time.strftime('%b %d, %Y')}
+
+b Was the meeting relevant to you?

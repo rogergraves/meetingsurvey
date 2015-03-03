@@ -19,6 +19,20 @@ class MeetingOccurrence < ActiveRecord::Base
     end
   end
 
+  def surveyed_users
+    User.joins(:survey_answers).where(survey_answers: {meeting_occurrence: self}).uniq
+  end
+
+  def refused_users
+    User.joins(:survey_invites).where(survey_invites: {meeting_occurrence: self,
+                                                       confirmed_attendance: false})
+  end
+
+  def missed_users
+    User.joins(:survey_invites).where(survey_invites: {meeting_occurrence: self,
+                                                       confirmed_attendance: nil})
+  end
+
   private
 
     def generate_link_code

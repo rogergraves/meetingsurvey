@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150227042546) do
+ActiveRecord::Schema.define(version: 20150303134452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 20150227042546) do
   create_table "survey_invites", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "meeting_occurrence_id"
-    t.boolean  "confirmed_attendance",  default: false
+    t.boolean  "confirmed_attendance"
     t.datetime "email_sent"
     t.string   "link_code"
     t.datetime "created_at"

@@ -5,7 +5,7 @@ FactoryGirl.define do
     user
     meeting_occurrence
     question { Faker::Lorem.sentence }
-    answer { ['Yes', 'No'].sample }
+    answer { ['yes', 'no'].sample }
     why { Faker::Lorem.sentence }
   end
 end
