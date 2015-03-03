@@ -15,8 +15,11 @@ class SurveyController < ApplicationController
   def create
     # TODO: add error catching
     invite = SurveyInvite.find_by(link_code: params[:link_code])
+    negative_responses = 0
 
     1.upto(6) do |i|
+      negative_responses += 1 if params["answer_#{i}"].to_s.downcase == 'no'
+
       SurveyAnswer.create( user_id: invite.user_id,
                             meeting_occurrence_id: invite.meeting_occurrence.id,
                             question: params["question_#{i}"],
@@ -24,9 +27,7 @@ class SurveyController < ApplicationController
                             why: params["answer_#{i}_why"]
       )
     end
-
-
-    render text: 'Thank you!'
+    @image = (negative_responses > 1 ? 'angry_possum.jpg' : 'possum_family.jpg')
   end
 
   def confirm_attendance
@@ -36,7 +37,7 @@ class SurveyController < ApplicationController
 
   def refuse_attendance
     @survey_invite.update!(confirmed_attendance: false)
-    render text: 'Thank you!'
+    @image = 'disgruntled_possum.jpg'
   end
 
   private
