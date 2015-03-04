@@ -74,8 +74,6 @@ module EmailChecker
         attendee_emails.delete(organizer_email)
         meeting.refresh_meeting_users(attendee_emails)
 
-        meeting.generate_invites
-
         # puts "summary: #{event.summary}"
         # puts "description: #{event.description}"
         # puts "dtstart: #{event.dtstart}"

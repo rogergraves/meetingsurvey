@@ -40,7 +40,7 @@ describe EmailChecker do
   it "creates MeetingParticipations" do
     expect(SurveyInvite.count).to eq(0)
     EmailChecker.process_message(email)
-    expect(SurveyInvite.count).to eq(6)
+    expect(SurveyInvite.count).to eq(5)
   end
 
   it "updates MeetingParticipations" do

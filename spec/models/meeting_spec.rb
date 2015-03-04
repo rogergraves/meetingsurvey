@@ -221,9 +221,9 @@ describe Meeting do
       participant1 = create(:meeting_user, meeting: meeting, organizer: false)
       participant2 = create(:meeting_user, meeting: meeting, organizer: false)
 
-      expect(meeting.participants).to eq([participant1.user, participant2.user])
-      expect(meeting.participants(:user)).to eq([participant1.user, participant2.user])
-      expect(meeting.participants(:meeting_user)).to eq([participant1, participant2])
+      expect(meeting.participants).to include(participant1.user, participant2.user)
+      expect(meeting.participants(:user)).to include(participant1.user, participant2.user)
+      expect(meeting.participants(:meeting_user)).to include(participant1, participant2)
     end
 
     describe "#add_meeting_user" do
