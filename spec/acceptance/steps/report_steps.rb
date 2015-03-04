@@ -20,8 +20,20 @@ module ReportSteps
     1.upto(surveyed_users_count) do |i|
       new_user = @meeting.add_meeting_user("participant#{i}@example.com").user
       new_user.survey_invites.find_by(meeting_occurrence: @occurrence).update(confirmed_attendance: true)
-      6.times do
-        create(:survey_answer, user: new_user, meeting_occurrence: @occurrence)
+      Question.all.each_with_index do |question, index|
+
+        if index == Question.all.size - 1
+          create(:survey_answer,
+                 question: question[:question],
+                 answer: Faker::Lorem.sentence,
+                 user: new_user,
+                 meeting_occurrence: @occurrence)
+        else
+          create(:survey_answer,
+                 question: question[:question],
+                 user: new_user,
+                 meeting_occurrence: @occurrence)
+        end
       end
     end
 
@@ -69,8 +81,8 @@ module ReportSteps
     expect(page).to have_content(expectation)
   end
 
-  step 'qwe' do
-    sleep 1
+  step 'wait :seconds seconds' do |seconds|
+    sleep seconds.to_i
   end
 end
 

@@ -2,9 +2,6 @@ class ReportController < ApplicationController
   before_action :lookup_link_code
 
   def show
-    @meeting = @meeting_occurrence.meeting
-    # @surveyed_users = @meeting_occurrence.surveyed_users
-    @all_participants = @meeting_occurrence.meeting.participants
   end
 
   private

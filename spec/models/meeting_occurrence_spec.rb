@@ -39,8 +39,11 @@ describe MeetingOccurrence do
       1.upto(@surveyed_users_count) do |i|
         new_user = meeting.add_meeting_user("participant#{i}@example.com").user
         new_user.survey_invites.find_by(meeting_occurrence: occurrence).update(confirmed_attendance: true)
-        6.times do
-          create(:survey_answer, user: new_user, meeting_occurrence: occurrence)
+        Question.all.each do |question|
+          create(:survey_answer,
+                 question: question[:question],
+                 user: new_user,
+                 meeting_occurrence: occurrence)
         end
       end
 
@@ -103,6 +106,17 @@ describe MeetingOccurrence do
 
       1.upto(@refused_users_count) do |i|
         expect(expected_users).to_not include(User.find_by(email: "refused_participant#{i}@example.com"))
+      end
+    end
+
+    it '#questions_and_answers' do
+      expected_data = occurrence.questions_and_answers
+      puts expected_data
+
+      expect(expected_data.count).to eq(Question.all.count)
+
+      Question.all.each do |question|
+        expect(expected_data.has_key?(question[:question])).to be_truthy
       end
     end
   end

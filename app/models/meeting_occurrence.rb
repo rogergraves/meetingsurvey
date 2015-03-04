@@ -33,6 +33,40 @@ class MeetingOccurrence < ActiveRecord::Base
                                                        confirmed_attendance: nil})
   end
 
+  # Returns hash-structured questions with answers
+  #
+  # {
+  #     "Was this meeting relevant to you?"=>[
+  #         {:answer=>"yes", :why=>"", :email=>"participant1@example.com"},
+  #         {:answer=>"no", :why=>"Because", :email=>"participant2@example.com"},
+  #     ],
+  #     "Was the purpose of this meeting clear?"=>[
+  #         {:answer=>"yes", :why=>"Don't know", :email=>"participant1@example.com"},
+  #         {:answer=>"yes", :why=>"qewqwe", :email=>"participant2@example.com"},
+  #     ]
+  # }
+  def questions_and_answers
+    data = survey_answers.joins(:user)
+               .select(:id, :user_id, :question, :answer, :why, 'users.email AS email')
+               .to_a.map(&:serializable_hash)
+
+    result = {}
+    Question.all.each do |question|
+      result[question[:question]] = []
+      data.each do |d|
+        if d['question'] == question[:question]
+          result[question[:question]] << {
+              answer: d['answer'],
+              why: d['why'],
+              email: d['email']
+          }
+        end
+      end
+    end
+
+    result
+  end
+
   private
 
     def generate_link_code

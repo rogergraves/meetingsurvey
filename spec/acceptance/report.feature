@@ -11,7 +11,7 @@ Feature: Report testing
     And I should see on the page "Welcome! So far 6 out of 13 meeting participants have responded."
     And I should see a list of absent participants
     And I should see a list of skipped participants
-    And qwe
+    And wait 10 seconds
 
 #    When Report data exists with link code "1234567890"
 #    And I navigate to "/report/1234567890"

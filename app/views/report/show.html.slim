@@ -1,8 +1,17 @@
-p Welcome! So far #{@meeting_occurrence.surveyed_users.count} out of #{@all_participants.count} meeting participants have responded.
+- present(@meeting_occurrence, ReportPresenter) do |p|
+  p Welcome! So far #{@meeting_occurrence.surveyed_users.count} out of #{p.all_participants.count} meeting participants have responded.
 
-p = refused_users(@meeting_occurrence.refused_users)
-p = missed_users(@meeting_occurrence.missed_users)
+  p = p.refused_users_html
+  p = p.missed_users_html
 
-h3 Survey Results for “#{@meeting.summary}” on #{@meeting_occurrence.start_time.strftime('%b %d, %Y')}
+  h3 Survey Results for “#{p.summary}” on #{@meeting_occurrence.start_time.strftime('%b %d, %Y')}
 
-b Was the meeting relevant to you?
+  - Question.all.each_with_index do |question, index|
+
+    / For last question which has only text answer
+    - if index == Question.all.size - 1
+      ul
+        = p.text_question_report question
+    - else
+      ul
+        = p.yes_or_no_question_report question
