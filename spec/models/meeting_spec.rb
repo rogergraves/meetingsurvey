@@ -226,15 +226,6 @@ describe Meeting do
       expect(meeting.participants(:meeting_user)).to eq([participant1, participant2])
     end
 
-    it "#generate_invites" do
-      organizer    = create(:meeting_user, meeting: meeting, organizer: true)
-      participant1 = create(:meeting_user, meeting: meeting, organizer: false)
-      participant2 = create(:meeting_user, meeting: meeting, organizer: false)
-      meeting.generate_invites
-
-      expect(SurveyInvite.where(meeting_occurrence: meeting.last_occurrence).count).to eq(2)
-    end
-
     describe "#add_meeting_user" do
       it "adds a participant to users and meeting_users table" do
         email = 'participant@example.com'

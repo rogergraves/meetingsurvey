@@ -165,17 +165,6 @@ class Meeting < ActiveRecord::Base
     meeting_user
   end
 
-  # Generates SurveyInvites for all meeting users except organizer
-  # TODO: Refactor this to add_meeting_user
-  # def generate_invites
-  #   occurrence = last_occurrence
-  #   if occurrence
-  #     participants.each do |user|
-  #       SurveyInvite.find_or_create_by!(meeting_occurrence: occurrence, user: user)
-  #     end
-  #   end
-  # end
-
   private
 
     def generate_new_occurrence(start_time, end_time)
