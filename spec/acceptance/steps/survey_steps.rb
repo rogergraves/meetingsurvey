@@ -43,48 +43,18 @@ module SurveySteps
     sleep seconds.to_i
   end
 
-  step 'The user for the invite with link code "1234567890" should have a survey answer with question "Was this meeting relevant to you?" answer "yes" and why "Because"' do
-    answer = get_answer('1234567890', { question: 'Was this meeting relevant to you?',
-                                        answer:   'yes',
-                                        why:      'Because'
-                                    })
+  step 'The user for the invite with link code :link_code should have a survey answer with question :question answer :answer and why :why' do |link_code, question, answer, why|
+    answer = get_answer(link_code, { question: question, answer: answer, why: why })
     expect(answer.present?).to be_truthy
   end
 
-  step 'The user for the invite with link code "1234567890" should have a survey answer with question "Was the purpose of this meeting clear?" answer "no" and no why' do
-    answer = get_answer('1234567890', { question: 'Was the purpose of this meeting clear?',
-                                        answer:   'no'
-                                    })
+  step 'The user for the invite with link code :link_code should have a survey answer with question :question answer :answer and no why' do |link_code, question, answer|
+    answer = get_answer(link_code, { question: question, answer: answer})
     expect(answer.present?).to be_truthy
   end
 
-  step 'The user for the invite with link code "1234567890" should have a survey answer with question "Any other feedback?" with why "Cool meeting!"' do
-    answer = get_answer('1234567890', { question: 'Any other feedback?',
-                                        answer:   'Cool meeting!'
-                                    })
-    expect(answer.present?).to be_truthy
-  end
-
-  ##################
-  step 'The user for the invite with link code "1234567890" should have a survey answer with question "Was this meeting relevant to you?" answer "no" and no why' do
-    answer = get_answer('1234567890', { question: 'Was this meeting relevant to you?',
-                                        answer:   'no'
-                                    })
-    expect(answer.present?).to be_truthy
-  end
-
-  step 'The user for the invite with link code "1234567890" should have a survey answer with question "Did this meeting have good communication?" answer "yes" and why "Hello"' do
-    answer = get_answer('1234567890', { question: 'Did this meeting have good communication?',
-                                        answer:   'no',
-                                        why:      'Hello'
-                                    })
-    expect(answer.present?).to be_truthy
-  end
-
-  step 'The user for the invite with link code "1234567890" should have a survey answer with question "Any other feedback?" with why "Super meeting!"' do
-    answer = get_answer('1234567890', { question: 'Any other feedback?',
-                                        answer:   'Super meeting!'
-                                    })
+  step 'The user for the invite with link code :link_code should have a survey answer with question :question with why :answer' do |link_code, question, answer|
+    answer = get_answer(link_code, { question: question, answer: answer })
     expect(answer.present?).to be_truthy
   end
 

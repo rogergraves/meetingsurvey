@@ -76,5 +76,5 @@ Feature: Survey testing
     And I click the link "submit"
     And I wait for 1 seconds
     Then The user for the invite with link code "1234567890" should have a survey answer with question "Was this meeting relevant to you?" answer "no" and no why
-    And The user for the invite with link code "1234567890" should have a survey answer with question "Did this meeting have good communication?" answer "yes" and why "Hello"
+    And The user for the invite with link code "1234567890" should have a survey answer with question "Did this meeting have good communication?" answer "no" and why "Hello"
     And The user for the invite with link code "1234567890" should have a survey answer with question "Any other feedback?" with why "Super meeting!"
