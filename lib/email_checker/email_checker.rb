@@ -72,6 +72,7 @@ module EmailChecker
 
         attendee_emails = event.attendee.map(&:to)
         attendee_emails.delete(organizer_email)
+        attendee_emails.delete(ENV['MAILMAN_USERNAME'])
         meeting.refresh_meeting_users(attendee_emails)
 
         # puts "summary: #{event.summary}"

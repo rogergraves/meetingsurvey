@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get '/survey/:link_code/refuse_attendance', to: 'survey#refuse_attendance', as: 'refuse_attendance'
   resources :report, only: :show
 
-  devise_for :users
+  # devise_for :users
 
   get '/', :to => 'home#index', :as => 'home_index'
 
