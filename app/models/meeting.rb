@@ -11,26 +11,16 @@ class Meeting < ActiveRecord::Base
 
   validates_presence_of :uid, :start_time, :end_time
 
-  # return type can be User or MeetingUser
-  def organizer(type=:user)
-    if type == :user
-      meeting_users.where(organizer: true).first.user
-    elsif type == :meeting_user
-      meeting_users.where(organizer: true).first
-    else
-      raise 'Wrong argument: "type"'
-    end
+  def organizer
+    self.meeting_users.find_by(organizer: true).user
   end
 
-  # return type can be User or MeetingUser
-  def participants(type=:user)
-    if type == :user
-      User.joins(:meeting_users).where(meeting_users: {meeting: self, organizer: false})
-    elsif type == :meeting_user
-      meeting_users.where(organizer: false)
-    else
-      raise 'Wrong argument: "type"'
-    end
+  def meeting_user_participants
+    self.meeting_users.where(organizer: false)
+  end
+
+  def participants
+    meeting_user_participants.map{|meeting_user| meeting_user.user }
   end
 
   def last_occurrence
@@ -147,7 +137,7 @@ class Meeting < ActiveRecord::Base
 
   def refresh_meeting_users(emails)
     new_users = emails.map { |email| add_meeting_user(email) }
-    redundant_users = participants(:meeting_user) - new_users
+    redundant_users = meeting_user_participants - new_users
     redundant_users.each(&:delete)
   end
 
