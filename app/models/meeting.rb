@@ -20,7 +20,7 @@ class Meeting < ActiveRecord::Base
   end
 
   def participants
-    meeting_user_participants.map{|meeting_user| meeting_user.user }
+    User.joins(:meeting_users).where(meeting_users: {meeting: self, organizer: false})
   end
 
   def last_occurrence
