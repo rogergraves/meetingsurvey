@@ -3,8 +3,15 @@
     div.welcome
       h4 #{@meeting.summary}
       p hosted by #{@meeting.organizer.email} #{time_ago_in_words @survey_invite.meeting_occurrence.start_time} ago.
-    div.progress
-      div.progress-bar role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;" 1 / 6
+    table.welcome
+      tr
+        td
+          div.progress
+            div.progress-bar role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;" 1 / 6
+        td
+          div.welcome.back-link.centered
+            i.fa.fa-backward.back-button id="back-button"
+            span.back-esc esc
 
     = form_tag('/survey', class: 'form-questions', id: 'survey-form') do
       = hidden_field_tag :link_code, params[:link_code]

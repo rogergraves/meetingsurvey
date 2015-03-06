@@ -2,6 +2,12 @@
   .welcome {
     text-align: center;
   }
+  table.welcome {
+    width: 245px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
   .form-questions {
     margin-top: 60px;
@@ -108,6 +114,24 @@
     width: 200px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .back-link {
+    text-align: center;
+    font-size: .7em;
+    margin-bottom: 2px;
+    .back-esc {
+      font-size: 1.2em;
+      color: #8D8D8D;
+      border: solid 1px;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      padding-left: 3px;
+      padding-right: 3px;
+      padding-bottom: 1px;
+      margin-left: 2px;
+    }
   }
 }
 .survey-finished {
