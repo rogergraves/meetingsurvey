@@ -12,7 +12,7 @@ class Meeting < ActiveRecord::Base
   validates_presence_of :uid, :start_time, :end_time
 
   def organizer
-    self.meeting_users.find_by(organizer: true).user
+    self.meeting_users.find_by(organizer: true).try(:user)
   end
 
   def meeting_user_participants

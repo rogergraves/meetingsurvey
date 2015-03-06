@@ -1,0 +1,10 @@
+<body>
+  <div>
+    <p><%= @participant.email %> responded to the Meeting Survey for <%= @meeting.summary %></p>
+    To view the results, click here: <%= link_to 'Report', report_url(@meeting_occurrence.link_code) %>
+    <% if @meeting.participants.count > 1 %>
+      Feel free to check the link from time to time. We'll also send you an email once everyone has responded.
+    <% end %>
+  </div>
+</body>
+

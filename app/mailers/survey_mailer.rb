@@ -7,11 +7,12 @@ class SurveyMailer < ApplicationMailer
     mail(to: @user.email, subject: "Did you attend \"#{survey_invite.meeting_occurrence.meeting.summary.sub!(/[?.!,;]?$/, '')}\"?")
   end
 
-  def hello
-    mail(to: 'kasianov.michael@gmail.com', subject: "Hello")
-    # mail(to: 'kasianov.michael@gmail.com',
-    #      body: 'qewqwe',
-    #      content_type: "text/html",
-    #      subject: "Hello")
+  def first_answer(participant, meeting_occurrence)
+    @participant = participant
+    @meeting = meeting_occurrence.meeting
+    @meeting_occurrence = meeting_occurrence
+
+    organizer = @meeting.organizer
+    mail(to: organizer.email, subject: "The first response is in!")
   end
 end

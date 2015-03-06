@@ -21,6 +21,8 @@ class SurveyController < ApplicationController
       answer.save
     end
     @image = (negative_responses > 1 ? 'angry_possum.jpg' : 'possum_family.jpg')
+
+    send_report(invite.user)
   end
 
   def confirm_attendance
@@ -39,6 +41,15 @@ class SurveyController < ApplicationController
     @survey_invite = SurveyInvite.find_by(link_code: params[:link_code])
     unless @meeting = @survey_invite.try(:meeting_occurrence).try(:meeting)
       redirect_to home_index_path, :flash => { :alert => "Meeting not found" }
+    end
+  end
+
+  def send_report(participant)
+    occurrence = @survey_invite.meeting_occurrence
+    surveyed_users = occurrence.surveyed_users
+    if surveyed_users.count == 1 and surveyed_users.include?(participant)
+      # TODO: make it delayed job
+      SurveyMailer.first_answer(participant, occurrence).deliver_now
     end
   end
 
