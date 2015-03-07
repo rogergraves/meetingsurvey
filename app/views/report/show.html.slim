@@ -10,8 +10,8 @@
 
     / For last question which has only text answer
     - if index == Question.all.size - 1
-      ul
+      ul.list-group
         = p.text_question_report question
     - else
-      ul
+      ul.list-group
         = p.yes_or_no_question_report question

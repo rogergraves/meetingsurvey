@@ -3,28 +3,38 @@ class ReportPresenter < BasePresenter
 
   def yes_or_no_question_report(question)
     %Q(
-      <b>#{question[:question]}</b>
-      <ul>
-        #{answers_html(question, 'yes')}
-      </ul>
-      <ul>
-        #{answers_html(question, 'no')}
+      <ul class="list-group">
+        <li class="list-group-item">
+          <b>#{question[:question]}</b><br>
+            <ul class="list-group">
+              #{question_report(answers_html(question, 'yes'), 'success')}
+              #{question_report(answers_html(question, 'no'), 'danger')}
+            </ul>
+        </li>
       </ul>
     ).html_safe
+  end
+
+  def question_report(content, type)
+    unless content.blank?
+      %Q(
+        <li class="list-group-item list-group-item-#{type}">
+            #{content}
+        </li>
+      ).html_safe
+    end
   end
 
   def text_question_report(question)
     _answers = questions_and_answers[question[:question]]
     _answers_html = ''
     _answers.each do |_answer|
-      _answers_html << "<li>#{mail_to _answer[:email]}<br>#{_answer[:answer]}</li>"
+      _answers_html << "<p>#{mail_to _answer[:email]}<br>#{_answer[:answer]}</p>"
     end
 
     %Q(
-      <b>#{question[:question]}</b>
-      <ul>
-        #{_answers_html}
-      </ul>
+      <p>#{question[:question]}</p>
+      #{_answers_html}
     ).html_safe
   end
 
@@ -32,13 +42,15 @@ class ReportPresenter < BasePresenter
     _answers = answers_for(question, answer)
     _answers_html = ''
     _answers.each do |_answer|
-      _answers_html << "<li>#{mail_to _answer[:email]} #{" -- #{_answer[:why]}" unless _answer[:why].blank?}</li>"
+      _answers_html << "<p>#{mail_to _answer[:email]} #{" -- #{_answer[:why]}" unless _answer[:why].blank?}</p>"
     end
 
-    %Q(
-      #{answer.capitalize}
+    unless _answers_html.blank?
+      %Q(
+      #{answer.capitalize }
       #{_answers_html}
-    ).html_safe
+      ).html_safe
+    end
   end
 
   def answers_for(question, answer)
