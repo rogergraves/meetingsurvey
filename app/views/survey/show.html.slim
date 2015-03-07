@@ -50,7 +50,6 @@ javascript:
   }
 
   function set_current_step(step) {
-    console.log("Step: ", step);
 
     if(step == 1) {
       $('table.welcome').hide();
@@ -66,6 +65,10 @@ javascript:
       });
 
       get_block(step).addClass('on');
+
+      if (step > 1) {
+        $('.on .why').focus();
+      }
 
       // Set focus to the textarea for the last question
       if (step == steps_count()) {
@@ -118,17 +121,12 @@ javascript:
 
   function next_step() {
     var step = parseInt(current_step());
-    if(step < 6) {
-      set_current_step(step + 1);
-    }
+    set_current_step(step + 1);
   }
 
   function previous_step() {
     var step = parseInt(current_step());
-    if(step > 1) {
-      set_current_step(step - 1);
-      $('.on .why').focus();
-    }
+    set_current_step(step - 1);
   }
 
   $(document).ready(function () {
