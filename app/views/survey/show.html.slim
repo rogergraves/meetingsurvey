@@ -50,6 +50,14 @@ javascript:
   }
 
   function set_current_step(step) {
+    console.log("Step: ", step);
+
+    if(step == 1) {
+      $('table.welcome').hide();
+    } else {
+      $('table.welcome').show();
+    }
+
     if (typeof step != 'undefined' && is_step_valid(step)) {
       var list = $('.question');
 
@@ -110,12 +118,17 @@ javascript:
 
   function next_step() {
     var step = parseInt(current_step());
-    set_current_step(step + 1);
+    if(step < 6) {
+      set_current_step(step + 1);
+    }
   }
 
   function previous_step() {
     var step = parseInt(current_step());
-    set_current_step(step - 1);
+    if(step > 1) {
+      set_current_step(step - 1);
+      $('.on .why').focus();
+    }
   }
 
   $(document).ready(function () {
