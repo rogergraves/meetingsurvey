@@ -24,7 +24,11 @@ describe SurveyMailer do
 
     let(:email) { SurveyMailer.first_answer(participant, meeting.last_occurrence) }
 
-    it 'has participant and meeting subject' do
+    it 'has subject' do
+      expect(email).to have_subject 'The first response is in!'
+    end
+
+    it 'has participant and meeting' do
       expect(email).to have_body_text "#{participant.email} responded to the Meeting Survey for #{meeting.summary}"
     end
 
@@ -39,6 +43,27 @@ describe SurveyMailer do
     it 'has no proposal to check report again if it has more than one participant' do
       meeting.add_meeting_user('another_participant@example.com')
       expect(email).to have_body_text "Feel free to check the link from time to time. We'll also send you an email once everyone has responded."
+    end
+  end
+
+  describe '#survey_done' do
+    let(:meeting) do
+      _meeting = create(:meeting)
+      _meeting.add_meeting_user('organizer@example.com', true)
+      _meeting.add_meeting_user('participant@example.com')
+      _meeting
+    end
+
+    let(:occurrence) { meeting.last_occurrence }
+
+    let(:email) { SurveyMailer.survey_done(occurrence) }
+
+    it 'has subject' do
+      expect(email).to have_subject 'All results are in!'
+    end
+
+    it 'has link to report' do
+      expect(email).to have_body_text report_url(meeting.last_occurrence.link_code)
     end
   end
 

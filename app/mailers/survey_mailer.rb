@@ -15,4 +15,11 @@ class SurveyMailer < ApplicationMailer
     organizer = @meeting.organizer
     mail(to: organizer.email, subject: "The first response is in!")
   end
+
+  def survey_done(meeting_occurrence)
+    meeting = meeting_occurrence.meeting
+    @meeting_occurrence = meeting_occurrence
+
+    mail(to: meeting.organizer.email, subject: "All results are in!")
+  end
 end

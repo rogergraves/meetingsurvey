@@ -47,6 +47,16 @@ class SurveyController < ApplicationController
   def send_report(participant)
     occurrence = @survey_invite.meeting_occurrence
     surveyed_users = occurrence.surveyed_users
+    refused_users = occurrence.refused_users
+    active_participants_count = surveyed_users.count + refused_users.count
+    participants_count = occurrence.meeting.participants.count
+
+    if active_participants_count == participants_count
+      # TODO: make it delayed job
+      SurveyMailer.survey_done(occurrence).deliver_now
+      return
+    end
+
     if surveyed_users.count == 1 and surveyed_users.include?(participant)
       # TODO: make it delayed job
       SurveyMailer.first_answer(participant, occurrence).deliver_now
